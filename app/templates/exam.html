@@ -13,5 +13,16 @@
     <a href="{{ url_for('main.provider', provider=provider_key) }}">Back to exams</a>
     <a href="{{ url_for('main.index') }}">Back to providers</a>
 
+    <h3 id="stage"></h3>
+    <p id="message"></p>
+
+    <div id="progress-container" style="display:none;">
+    <progress id="progress" value="0" max="100"></progress>
+    <span id="progress-text"></span>
+    </div>
+
+    <div id="questions"></div>
+
+    <script src="{{ url_for('static', filename='js/exam_progress.js') }}"></script>
 </body>
 </html>

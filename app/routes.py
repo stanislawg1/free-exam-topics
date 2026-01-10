@@ -1,9 +1,11 @@
 from flask import (
     Blueprint, current_app, render_template,
-    request, redirect, url_for, abort, session
+    request, redirect, url_for, abort, session,
+    Response, stream_with_context
 )
-
 from .providers import get_provider_exams
+from .questions import get_questions
+import json
 
 bp = Blueprint("main", __name__)
 
@@ -56,14 +58,24 @@ def provider(provider):
 @bp.route("/<provider>/<exam_code>")
 def exam_detail(provider, exam_code):
     exam_name = session.get("exam_name")
-
-    if not exam_code:
-        abort(400)
+    
+    questions = get_questions()
 
     return render_template(
         "exam.html",
         provider_key=provider,
         provider_name=current_app.config["PROVIDERS"][provider],
         exam_code=exam_code,
-        exam_name=exam_name
+        exam_name=exam_name,
+        questions=questions
     )
+
+
+@bp.route("/api/questions/progress")
+def questions_progress():
+    @stream_with_context
+    def generate():
+        for event in get_questions():
+            yield f"data: {json.dumps(event)}\n\n"
+
+    return Response(generate(), mimetype="text/event-stream")

@@ -34,3 +34,22 @@ def save_to_cache(type, exam_provider, exam_name, data):
 
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+
+
+def check_caching(exam_provider, exam_name): 
+    # checks the caching level (how deep we need to scrap -1 -> lowest (everything has to be scrapped) ; 4 -> highest (nothing has to be scrapped))
+    caching_level = -1
+    types = {
+        "discussion_links": 0,
+        "exam_discussion_links": 1, 
+        "exam_questions": 2, 
+        "providers": 3, 
+        "providers_exams": 4
+    }
+
+    for type_, level in types.items():
+        path = _get_path(type_, exam_provider, exam_name)
+        if os.path.isfile(path):
+            caching_level = level
+
+    return caching_level
