@@ -1,15 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
+from .filter import filter_discussion_links
 
 def _page_exists(url, headers, exam_provider, page_number):
-    url = f"{url}/{exam_provider}/{page_number}"
+    url = f"{url}/discussions/{exam_provider}/{page_number}"
     try:
         r = requests.get(url, headers=headers)
         if r.status_code == 200:
             return True
         elif r.status_code == 429:
-            raise LookupError("429 error")
+            raise LookupError("_page_exists 429 error")
         else:
             return False
     except Exception as e:
@@ -17,7 +18,7 @@ def _page_exists(url, headers, exam_provider, page_number):
         print(r.status_code)
         return False
 
-def find_max_page(exam_provider, start_upper=10_000):
+def find_max_page(url, headers, exam_provider, start_upper=10_000):
     low = 1
     high = start_upper
 
@@ -25,7 +26,7 @@ def find_max_page(exam_provider, start_upper=10_000):
 
     while low <= high:
         mid = (low + high) // 2
-        if _page_exists(exam_provider, mid):
+        if _page_exists(url, headers, exam_provider, mid):
             max_found = mid
             low = mid + 1
         else:
@@ -48,3 +49,7 @@ def get_links_from_page(url, headers):
         links.add(link)
 
     return list(links)
+
+def crawl_discussion_links(url, headers, exam_provider, page):
+    links = get_links_from_page(f'{url}/discussions/{exam_provider}/{page}', headers=headers)
+    return filter_discussion_links(links)

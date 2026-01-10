@@ -3,20 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Free Exam Topics</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-    <h1>Choose provider:</h1>
-    <form method="POST">
-        <select name="provider">
-            {% for key, value in options.items() %}
-                <option value="{{ key }}">{{ value }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Choose</button>
-    </form>
 
-    {% if selected_option %}
-        <p>Selected: {{ selected_option }}</p>
-    {% endif %}
+<div class="center-container">
+    <div class="provider-card">
+        <h1>Choose exam provider</h1>
+
+        <form method="POST">
+            <select name="provider">
+                {% for key, value in options.items() %}
+                    <option value="{{ key }}">{{ value }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Choose</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

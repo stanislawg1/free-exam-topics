@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Free Exam Topics - {{ provider_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/provider.css') }}">
 </head>
 <body>
-    <h1>{{ provider_name }}</h1>
-    <p>Chosen provider: {{ provider_key }}</p>
 
-    <h2>Exams:</h2>
-    {% if exams %}
-    <form method="POST">
-        <select name="exam">
-            {% for code, name in exams.items() %}
-                <option value="{{ code }}">{{ name }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Show exam questions</button>
-    </form>
-    {% else %}
-        <p>Exams not found.</p>
-    {% endif %}
+<div class="center-container">
+    <div class="exam-card">
+        <h1>{{ provider_name }}</h1>
+        {% if exams %}
+        <form method="POST">
+            <select name="exam">
+                {% for code, name in exams.items() %}
+                    <option value="{{ code }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Show exam questions</button>
+        </form>
+        {% else %}
+            <p>Exams not found.</p>
+        {% endif %}
 
-    <a href="{{ url_for('main.index') }}">Back to providers</a>
+        <a class="back-link" href="{{ url_for('main.index') }}">Back to providers</a>
+    </div>
+</div>
+
 </body>
 </html>

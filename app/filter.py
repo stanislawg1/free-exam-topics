@@ -9,16 +9,6 @@ def _extract_exam_id(url: str) -> str | None:
 
     return m.group(1) if m else None
 
-def _extract_provider(url: str) -> str | None:
-    path = urlparse(url).path.lower()
-    parts = path.split("/")
-    if "view" in parts:
-        i = parts.index("view")
-        if i > 0:
-            return parts[i-1]
-    return None
-
-
 def filter_discussion_links(all_links):
     pattern = re.compile(
         r"^https://www\.examtopics\.com/discussions/"

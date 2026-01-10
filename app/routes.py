@@ -1,10 +1,11 @@
 from flask import (
     Blueprint, current_app, render_template,
     request, redirect, url_for, abort, session,
-    Response, stream_with_context
+    Response, stream_with_context, send_file
 )
 from .providers import get_provider_exams
 from .questions import get_questions
+from .anki import generate_anki_file
 import json
 
 bp = Blueprint("main", __name__)
@@ -27,7 +28,7 @@ def provider(provider):
         abort(404)
 
     exams = get_provider_exams(
-        base_url=current_app.config["BASIC_URL"],
+        base_url=current_app.config["BASE_URL"],
         headers=current_app.config["HEADERS"],
         provider_name=provider,
     )
@@ -38,6 +39,8 @@ def provider(provider):
             abort(404)
 
         session["exam_name"] = exams[exam_code]
+        session["exam_code"] = exam_code
+        session["provider"] = provider
 
         return redirect(
             url_for(
@@ -59,23 +62,68 @@ def provider(provider):
 def exam_detail(provider, exam_code):
     exam_name = session.get("exam_name")
     
-    questions = get_questions()
-
     return render_template(
         "exam.html",
         provider_key=provider,
         provider_name=current_app.config["PROVIDERS"][provider],
         exam_code=exam_code,
         exam_name=exam_name,
-        questions=questions
     )
-
 
 @bp.route("/api/questions/progress")
 def questions_progress():
-    @stream_with_context
+
     def generate():
-        for event in get_questions():
+        for event in get_questions(exam_provider=session["provider"], exam_code=session["exam_code"], url=current_app.config["BASE_URL"], headers=current_app.config["HEADERS"], caching=current_app.config["CACHE_ENABLED"]): 
+            if event.get("type") == "done":
+                session["exam_questions"] = event.get("questions", [])
+            
             yield f"data: {json.dumps(event)}\n\n"
 
-    return Response(generate(), mimetype="text/event-stream")
+    return Response(
+        stream_with_context(generate()),
+        mimetype="text/event-stream"
+    )
+
+
+@bp.route("/<provider>/<exam_code>/test")
+def test_mode(provider, exam_code):
+    questions = session.get("exam_questions")
+    if not questions:
+        return "Questions not loaded", 400
+
+    return render_template(
+        "test_mode.html",
+        provider_key=provider,
+        exam_code=exam_code,
+        provider_name=current_app.config["PROVIDERS"][provider],
+        questions=questions,
+        mode="test"
+    )
+
+@bp.route("/<provider>/<exam_code>/learn")
+def learn_mode(provider, exam_code):
+    questions = session.get("exam_questions")
+    if not questions:
+        return "Questions not loaded", 400
+
+    return render_template(
+        "learn_mode.html",
+        provider_key=provider,
+        exam_code=exam_code,
+        provider_name=current_app.config["PROVIDERS"][provider],
+        questions=questions,
+        mode="learn"
+    )
+
+@bp.route("/<provider>/<exam_code>/anki")
+def download_anki(provider, exam_code):
+    questions = session.get("exam_questions")
+
+    anki_file_path = generate_anki_file(questions, provider, exam_code)
+
+    return send_file(
+        anki_file_path,
+        as_attachment=True,
+        download_name=f"{exam_code}.apkg"
+    )

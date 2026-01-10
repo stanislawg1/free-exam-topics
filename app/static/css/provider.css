@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #eef2f7, #dfe7f1);
+  padding: 1rem;
+}
+
+.center-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.exam-card {
+  background: #ffffff;
+  padding: 3rem 4vw; 
+  border-radius: 1.5rem;
+  box-shadow: 0 1rem 2.5rem rgba(0,0,0,0.15);
+
+  width: 90%;
+  max-width: 40rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exam-card h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.exam-card select {
+  width: 100%;
+  max-width: none;
+  padding: 0.8em 1em;
+  font-size: 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid #ccc;
+  margin-bottom: 1.2rem;
+
+  white-space: normal;      /* pozwala zawijać */
+  overflow: visible;        /* pokazuje cały tekst */
+  text-overflow: clip;      /* nie ucina */
+}
+
+
+.exam-card button {
+  width: 80%;
+  max-width: 20rem;
+  padding: 0.9em 1em;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  background: #4f46e5;
+  color: white;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.exam-card button:hover {
+  background: #4338ca;
+  transform: translateY(-0.1rem);
+}
+
+.back-link {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #4f46e5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
+.exam-card {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .exam-card {
+    padding: 2rem 5vw;
+  }
+  .exam-card h1 {
+    font-size: 1.7rem;
+  }
+  .exam-card h2 {
+    font-size: 1.3rem;
+  }
+  .exam-card select,
+  .exam-card button {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .exam-card {
+    padding: 1.5rem 5vw;
+  }
+  .exam-card h1 {
+    font-size: 1.5rem;
+  }
+  .exam-card h2 {
+    font-size: 1.2rem;
+  }
+}

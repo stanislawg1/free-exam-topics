@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #eef2f7, #dfe7f1);
+  padding: 1rem;
+}
+
+.center-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.provider-card {
+  background: #ffffff;
+  padding: 3rem 4vw;           
+  border-radius: 1.5rem;
+  box-shadow: 0 1rem 2.5rem rgba(0,0,0,0.15);
+
+  width: 90%;                   
+  max-width: 40rem;             
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.provider-card h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.provider-card select {
+  width: 80%;                   
+  max-width: 20rem;              
+  padding: 0.8em 1em;          
+  font-size: 1rem;
+  border-radius: 0.6rem;
+  border: 1px solid #ccc;
+  margin-bottom: 1.2rem;
+}
+
+.provider-card button {
+  width: 80%; 
+  max-width: 20rem;
+  padding: 0.9em 1em;
+  font-size: 1rem;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 0.6rem;
+  cursor: pointer;
+
+  background: #007bff;
+}

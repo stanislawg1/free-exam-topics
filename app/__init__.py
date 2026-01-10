@@ -16,12 +16,10 @@ def create_app(cache_enabled: bool):
             "Chrome/120.0 Safari/537.36"
         )
     }
-    app.config["BASIC_URL"] = "https://www.examtopics.com"
-    app.config["URL"] = "https://www.examtopics.com/discussions"
-    app.config["PROVIDERS_EXAMS"] = {}
+    app.config["BASE_URL"] = "https://www.examtopics.com"
 
     if not app.config["CACHE_ENABLED"]:
-        app.config["PROVIDERS"] = get_all_providers(base_url=app.config["BASIC_URL"], headers=app.config["HEADERS"])
+        app.config["PROVIDERS"] = get_all_providers(base_url=app.config["BASE_URL"], headers=app.config["HEADERS"])
         app.config["PROVIDERS"] = dict(
             sorted(
                 (k, v) for k, v in app.config["PROVIDERS"].items() if k != "exams" # sort and remove all exams entry

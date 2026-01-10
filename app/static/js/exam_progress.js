@@ -3,7 +3,7 @@ const messageEl = document.getElementById("message");
 const progressContainer = document.getElementById("progress-container");
 const progressEl = document.getElementById("progress");
 const progressText = document.getElementById("progress-text");
-const questionsEl = document.getElementById("questions");
+const modeContainer = document.getElementById("mode-container");
 
 const evt = new EventSource("/api/questions/progress");
 
@@ -14,7 +14,6 @@ evt.onmessage = (e) => {
         stageEl.innerText = data.stage;
         messageEl.innerText = data.message || "";
 
-        // pokaż progress bar tylko jeśli etap ma total
         if (data.total) {
             progressContainer.style.display = "block";
             progressEl.value = 0;
@@ -32,15 +31,24 @@ evt.onmessage = (e) => {
     }
 
     if (data.type === "done") {
-        stageEl.innerText = "Gotowe ✅";
+        stageEl.style.display = "none";
         progressContainer.style.display = "none";
-        evt.close();
+        messageEl.style.display = "none";
 
-        data.questions.forEach(q => {
-            const div = document.createElement("div");
-            div.innerText = q.text;
-            questionsEl.appendChild(div);
-        });
+        if (modeContainer) {
+            modeContainer.innerHTML = `
+                <div class="mode-selector">
+                    <h2>Choose mode:</h2>
+                    <div class="mode-grid">
+                        <a class="mode-tile" href="/${providerKey}/${examCode}/test">📝<span>Test mode</span></a>
+                        <a class="mode-tile" href="/${providerKey}/${examCode}/learn">📘<span>Learn mode</span></a>
+                        <a class="mode-tile" href="/${providerKey}/${examCode}/download_anki">🧠<span>Download Anki</span></a>
+                    </div>
+                </div>
+            `;
+        }
+
+        evt.close();
     }
 
     if (data.type === "error") {

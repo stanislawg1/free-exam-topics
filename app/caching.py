@@ -42,9 +42,7 @@ def check_caching(exam_provider, exam_name):
     types = {
         "discussion_links": 0,
         "exam_discussion_links": 1, 
-        "exam_questions": 2, 
-        "providers": 3, 
-        "providers_exams": 4
+        "exam_questions": 2
     }
 
     for type_, level in types.items():
