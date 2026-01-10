@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Free Exam Topics - {{ provider_name }}</title>
+</head>
+<body>
+    <h1>{{ provider_name }}</h1>
+    <p>Chosen provider: {{ provider_key }}</p>
+
+    <h2>Exams:</h2>
+    {% if exams %}
+    <form method="POST">
+        <select name="exam">
+            {% for code, name in exams.items() %}
+                <option value="{{ code }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Show exams</button>
+    </form>
+    {% else %}
+        <p>Exams not found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('main.index') }}">Back to providers</a>
+</body>
+</html>
