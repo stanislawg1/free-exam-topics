@@ -1,4 +1,8 @@
-from flask import Blueprint, render_template, current_app, abort, redirect, url_for, request
+from flask import (
+    Blueprint, current_app, render_template,
+    request, redirect, url_for, abort, session
+)
+
 from .providers import get_provider_exams
 
 bp = Blueprint("main", __name__)
@@ -20,42 +24,46 @@ def provider(provider):
     if provider not in providers:
         abort(404)
 
-    exams = get_provider_exams(                     #todo caching
+    exams = get_provider_exams(
         base_url=current_app.config["BASIC_URL"],
         headers=current_app.config["HEADERS"],
         provider_name=provider,
     )
 
     if request.method == "POST":
-        exam = request.form.get("exam")
-        if exam not in exams:
+        exam_code = request.form.get("exam")
+        if exam_code not in exams:
             abort(404)
-        return redirect(url_for("main.exam_detail", provider=provider, exam_name=exam))
+
+        session["exam_name"] = exams[exam_code]
+
+        return redirect(
+            url_for(
+                "main.exam_detail",
+                provider=provider,
+                exam_code=exam_code,
+            )
+        )
 
     return render_template(
         "provider.html",
         provider_name=providers[provider],
-        exams=exams, 
+        exams=exams,
         provider_key=provider
     )
 
-@bp.route("/<provider>/<exam_name>")
-def exam_detail(provider, exam_name):
-    exams = get_provider_exams(                            #todo caching
-        base_url=current_app.config["BASIC_URL"],
-        headers=current_app.config["HEADERS"],
-        provider_name=provider
-    )
 
-    print(exam_name)
+@bp.route("/<provider>/<exam_code>")
+def exam_detail(provider, exam_code):
+    exam_name = session.get("exam_name")
 
-    if exam_name not in exams:
-        abort(404)
+    if not exam_code:
+        abort(400)
 
     return render_template(
         "exam.html",
         provider_key=provider,
         provider_name=current_app.config["PROVIDERS"][provider],
-        exam_code=exam_name,
-        exam_name=exams[exam_name]
+        exam_code=exam_code,
+        exam_name=exam_name
     )

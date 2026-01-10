@@ -4,6 +4,9 @@ from .providers import get_all_providers
 
 def create_app(cache_enabled: bool):
     app = Flask(__name__)
+    
+    app.secret_key = "super-secret-key"
+
     app.config.from_object("config.Config")
     app.config["CACHE_ENABLED"] = cache_enabled
     app.config["HEADERS"] = {
