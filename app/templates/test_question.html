@@ -1,37 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{{ exam_code }} - Question {{ q_index + 1 }}</title>
-    <style>
-        .choices li { margin: 5px 0; }
-        img { max-width: 100%; height: auto; }
-    </style>
+    <meta charset="UTF-8">
+    <title>Question {{ q_index + 1 }} / {{ total }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
 </head>
 <body>
-<h2>{{ provider_name }} - {{ exam_code }}</h2>
-<p>Question {{ q_index + 1 }} of {{ total }}</p>
+<div class="center-container">
+    <div class="exam-card">
+        <h1>Question {{ q_index + 1 }} / {{ total }}</h1>
 
-<form method="POST">
-    <div>
-        {{ question.question_html | safe }}
-    </div>
-    <ul class="choices">
-        {% for c in question.choices %}
-        <li>
-            <label>
-                <input type="radio" name="answer" value="{{ c.letter }}">
-                {{ c.letter }}. {{ c.text }}
-            </label>
-        </li>
-        {% endfor %}
-    </ul>
-
-    <div>
-        {% if q_index > 0 %}
-        <a href="{{ url_for('exam.test_question', provider=provider_key, exam_code=exam_code, q_index=q_index-1) }}">Previous</a>
+        {% if rejected_count > 0 and q_index == 0 %}
+        <div class="notice">
+            ⚠️ {{ rejected_count }} questions were rejected because they have no choices.
+        </div>
         {% endif %}
-        <button type="submit">{% if q_index + 1 == total %}Finish{% else %}Next{% endif %}</button>
+
+        <div class="question-content">
+            {{ question.question_html | safe }}
+        </div>
+
+        <form method="post">
+            {% for choice in question.choices %}
+            <div class="choice">
+                <input type="radio" id="choice_{{ choice.letter }}" name="answer" value="{{ choice.letter }}">
+                <label for="choice_{{ choice.letter }}">{{ choice.letter }}. {{ choice.text }}</label>
+            </div>
+            {% endfor %}
+
+            <button type="submit">Next</button>
+        </form>
+
+        {% if q_index > 0 %}
+        <a href="{{ url_for('main.test_question', provider=provider, exam_code=exam_code, q_index=q_index-1) }}" class="prev-link">&larr; Previous</a>
+        {% endif %}
     </div>
-</form>
+</div>
 </body>
 </html>

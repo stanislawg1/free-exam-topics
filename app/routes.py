@@ -9,6 +9,10 @@ from .anki import generate_anki_file
 import json, os
 from .local_cache import questions_cache_key, cache
 from .filter import filter_questions_for_test
+from bs4 import BeautifulSoup
+import random
+
+
 
 bp = Blueprint("main", __name__)
 
@@ -117,87 +121,122 @@ def download_anki(provider, exam_code):
         download_name=f"{exam_code}.apkg"
     )
 
-@bp.route("/<provider>/<exam_code>/test", methods=["GET"])
+@bp.route("/<provider>/<exam_code>/test", methods=["GET", "POST"])
 def test_start(provider, exam_code):
-    """Start test - przekierowuje do pierwszego pytania"""
     cache_key = questions_cache_key(provider, exam_code)
     questions = cache.get(cache_key)
     if not questions:
         return "Questions not loaded", 400
 
-    valid_questions = filter_questions_for_test(questions)
+    valid_questions, rejected_questions = filter_questions_for_test(questions)
     if not valid_questions:
         return "No valid questions with choices found", 400
 
-    return redirect(url_for("exam.test_question", provider=provider, exam_code=exam_code, q_index=0))
+    if request.method == "POST":
+        try:
+            num_questions = int(request.form.get("num_questions", len(valid_questions)))
+        except ValueError:
+            num_questions = len(valid_questions)
+
+        num_questions = min(num_questions, len(valid_questions))
+
+        chosen_indices = random.sample(range(len(valid_questions)), num_questions)
+
+        session["test_question_order"] = chosen_indices
+        session["user_answers"] = {}
+        session["test_num_questions"] = num_questions
+
+        return redirect(url_for(
+            "main.test_question",
+            provider=provider,
+            exam_code=exam_code,
+            q_index=0
+        ))
+
+    return render_template(
+        "test_start.html",
+        provider=provider,
+        exam_code=exam_code,
+        provider_name=current_app.config["PROVIDERS"][provider],
+        total_questions=len(valid_questions),
+        rejected_count=rejected_questions,
+        exam_name=session["exam_name"]
+    )
+
 
 @bp.route("/<provider>/<exam_code>/test/<int:q_index>", methods=["GET", "POST"])
 def test_question(provider, exam_code, q_index):
+    chosen_indices = session.get("test_question_order")
+    if not chosen_indices:
+        return redirect(url_for("main.test_start", provider=provider, exam_code=exam_code))
+
     cache_key = questions_cache_key(provider, exam_code)
     questions = cache.get(cache_key)
-    if not questions:
-        return "Questions not loaded", 400
+    valid_questions, _ = filter_questions_for_test(questions)
 
-    valid_questions = filter_questions_for_test(questions)
-    if not valid_questions:
-        return "No valid questions with choices found", 400
-
-    if q_index < 0 or q_index >= len(valid_questions):
+    if q_index < 0 or q_index >= len(chosen_indices):
         return "Question not found", 404
 
-    q = valid_questions[q_index]
+    idx = chosen_indices[q_index]
+    q = valid_questions[idx]
 
     if request.method == "POST":
-        user_answers = request.session.get("user_answers", {})
+        user_answers = session.get("user_answers", {})
         ans = request.form.get("answer")
         if ans:
             user_answers[str(q_index)] = ans
-            request.session["user_answers"] = user_answers
+            session["user_answers"] = user_answers
 
-        if q_index + 1 < len(valid_questions):
-            return redirect(url_for("exam.test_question", provider=provider, exam_code=exam_code, q_index=q_index+1))
+        # przejście do następnego pytania lub wynik
+        if q_index + 1 < len(chosen_indices):
+            return redirect(url_for(
+                "main.test_question",
+                provider=provider,
+                exam_code=exam_code,
+                q_index=q_index+1
+            ))
         else:
-            return redirect(url_for("exam.test_result", provider=provider, exam_code=exam_code))
+            return redirect(url_for("main.test_result", provider=provider, exam_code=exam_code))
 
     return render_template(
         "test_question.html",
         provider_name=current_app.config["PROVIDERS"][provider],
+        provider=provider,
         exam_code=exam_code,
         question=q,
         q_index=q_index,
-        total=len(valid_questions)
+        total=len(chosen_indices)
     )
-
 
 @bp.route("/<provider>/<exam_code>/test/result", methods=["GET"])
 def test_result(provider, exam_code):
+    chosen_indices = session.get("test_question_order")
+    if not chosen_indices:
+        return "Test session expired or no questions selected", 400
+
     cache_key = questions_cache_key(provider, exam_code)
     questions = cache.get(cache_key)
-    if not questions:
-        return "Questions not loaded", 400
-
-    valid_questions = [q for q in questions if q.get("choices")]
-    if not valid_questions:
-        return "No valid questions with choices found", 400
-
-    user_answers = request.session.get("user_answers", {})
+    valid_questions, _ = filter_questions_for_test(questions)
+    user_answers = session.get("user_answers", {})
 
     correct_count = 0
-    for idx, q in enumerate(valid_questions):
-        correct_ans = None
-        if q.get("answer"):
-            soup = BeautifulSoup(q["answer"], "html.parser")
-            correct_ans = soup.get_text(strip=True)
-        if correct_ans and user_answers.get(str(idx)) == correct_ans:
+    for q_num, idx in enumerate(chosen_indices):
+        q = valid_questions[idx]
+        correct_ans = BeautifulSoup(q.get("answer", ""), "html.parser").get_text(strip=True)
+        if correct_ans and user_answers.get(str(q_num)) == correct_ans:
             correct_count += 1
 
-    request.session.pop("user_answers", None)
+    # czyszczenie sesji
+    session.pop("user_answers", None)
+    session.pop("test_question_order", None)
+    session.pop("test_num_questions", None)
 
     return render_template(
         "test_result.html",
         provider_name=current_app.config["PROVIDERS"][provider],
+        provider=provider,
         exam_code=exam_code,
-        total=len(valid_questions),
+        total=len(chosen_indices),
         correct=correct_count
     )
 
