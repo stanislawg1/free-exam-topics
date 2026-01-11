@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ exam_code }} - Test Result</title>
+</head>
+<body>
+<h2>{{ provider_name }} - {{ exam_code }} Test Result</h2>
+<p>You answered {{ correct }} out of {{ total }} questions correctly.</p>
+<a href="{{ url_for('exam.test_start', provider=provider_key, exam_code=exam_code) }}">Try Again</a>
+</body>
+</html>

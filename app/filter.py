@@ -35,3 +35,17 @@ def filter_exam_links(exam_name: str, all_links: list[str]) -> list[str]:
         results = ex.map(check, all_links)
 
     return [r for r in results if r]
+
+
+def filter_questions_for_test(questions):
+
+    valid_questions = []
+    rejected_count = 0
+
+    for q in questions:
+        if not q.get("choices"):
+            rejected_count += 1
+            continue
+        valid_questions.append(q)
+
+    return valid_questions, rejected_count

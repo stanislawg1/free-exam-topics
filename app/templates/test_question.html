@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ exam_code }} - Question {{ q_index + 1 }}</title>
+    <style>
+        .choices li { margin: 5px 0; }
+        img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<h2>{{ provider_name }} - {{ exam_code }}</h2>
+<p>Question {{ q_index + 1 }} of {{ total }}</p>
+
+<form method="POST">
+    <div>
+        {{ question.question_html | safe }}
+    </div>
+    <ul class="choices">
+        {% for c in question.choices %}
+        <li>
+            <label>
+                <input type="radio" name="answer" value="{{ c.letter }}">
+                {{ c.letter }}. {{ c.text }}
+            </label>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div>
+        {% if q_index > 0 %}
+        <a href="{{ url_for('exam.test_question', provider=provider_key, exam_code=exam_code, q_index=q_index-1) }}">Previous</a>
+        {% endif %}
+        <button type="submit">{% if q_index + 1 == total %}Finish{% else %}Next{% endif %}</button>
+    </div>
+</form>
+</body>
+</html>
