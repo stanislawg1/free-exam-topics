@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 import json
 import requests
-import re, os
-from urllib.parse import urlparse
+import re, os, uuid
+from urllib.parse import urlparse, urljoin
 
 def _extract_discussion_title(soup: BeautifulSoup) -> str | None:
     h1 = soup.select_one(".discussion-list-header h1")
@@ -90,7 +90,12 @@ def _extract_question_html(soup: BeautifulSoup, url):
    
     _save_images(url, question_body)
 
-    return question_body.prettify()
+    if question_body:
+        p_tag = question_body.find("p", class_="card-text")
+        if p_tag:
+            return p_tag.prettify()
+
+    return None
 
 def _extract_answer_html(soup: BeautifulSoup, url):
     answer_body = soup.find("span", class_="correct-answer")
@@ -99,36 +104,70 @@ def _extract_answer_html(soup: BeautifulSoup, url):
 
     return answer_body.prettify()
 
-def _save_images(url, body):
+
+def _save_images(base_url, body, media_folder="assets/media"):
+
     if body is None:
-        return None
+        return []
+
+    saved_files = []
+
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/120.0 Safari/537.36"
+        )
+    }
 
     images = body.find_all("img")
-    for _, img in enumerate(images, 1):
-        src = img["src"]
+    for img in images:
+        src = img.get("src")
+        if not src or "_unique_local_name" in src:
+            continue
 
-        if src.startswith("http://") or src.startswith("https://"):
-            parsed = urlparse(src)
-            src_path = parsed.path.lstrip("/")  
+        if not src.startswith("http"):
+            img_url = "https://www.examtopics.com/" + src
         else:
-            src_path = src.lstrip("/")
+            img_url = src
 
-        img_url = url + src_path if not src.startswith("http") else src
-        img_data = requests.get(img_url).content
+        try:
+            r = requests.get(img_url, headers=headers)
+            r.raise_for_status()
+            img_data = r.content
+        except Exception as e:
+            try: # try again on img.examtopics.com
+                img_url = f"https://img.examtopics.com/{src.lstrip("/")}"
+                r = requests.get(img_url, headers=headers)
+                r.raise_for_status()
+                img_data = r.content
+            except Exception as e:
+                print(f"⚠️ Failed to download image {img_url}: {e}")
+                continue
 
-        folder = os.path.dirname(src_path)
+        img_basename = os.path.basename(urlparse(src).path)
+        folder = os.path.join(media_folder, os.path.dirname(urlparse(src).path).lstrip("/"))
         os.makedirs(folder, exist_ok=True)
 
-        img_filename = os.path.basename(src_path)
-        img_path = os.path.join(folder, img_filename)
+        name, ext = os.path.splitext(img_basename)
+        unique_name = f"{name}_{uuid.uuid4().hex}_unique_local_name{ext}"
 
-        with open(img_path, "wb") as f:
-            f.write(img_data)
+        img_path = os.path.join(folder, unique_name)
 
-        img["src"] = src_path
+        try:
+            with open(img_path, "wb") as f:
+                f.write(img_data)
+        except Exception as e:
+            print(f"⚠️ Failed to save image {img_path}: {e}")
+            continue
+
+        img["src"] = os.path.relpath(img_path, media_folder).replace("\\", "/")
+
+        saved_files.append(img_path)
+
+    return saved_files
+
         
-        print(src_path) #debug FIXME
-
 def get_discussion(link, headers):
     response = requests.get(link, headers=headers)
     response.raise_for_status()

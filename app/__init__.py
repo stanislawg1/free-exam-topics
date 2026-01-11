@@ -1,6 +1,9 @@
 from flask import Flask
 from .routes import bp
 from .providers import get_all_providers
+from .local_cache import cache
+from .caching import _get_path, get_from_cache
+import os
 
 def create_app(cache_enabled: bool):
     app = Flask(__name__)
@@ -18,6 +21,11 @@ def create_app(cache_enabled: bool):
     }
     app.config["BASE_URL"] = "https://www.examtopics.com"
 
+    app.config.update(
+        CACHE_TYPE="SimpleCache",
+        CACHE_DEFAULT_TIMEOUT=3600,
+    )
+
     if not app.config["CACHE_ENABLED"]:
         app.config["PROVIDERS"] = get_all_providers(base_url=app.config["BASE_URL"], headers=app.config["HEADERS"])
         app.config["PROVIDERS"] = dict(
@@ -26,8 +34,19 @@ def create_app(cache_enabled: bool):
             )
         )
 
-    else: #todo
-        pass
-    
+    else:
+        if os.path.exists(_get_path("providers", None, None)):
+            app.config["PROVIDERS"] = get_from_cache("providers", None, None)
+        else:
+            app.config["PROVIDERS"] = get_all_providers(base_url=app.config["BASE_URL"], headers=app.config["HEADERS"])
+
+        app.config["PROVIDERS"] = dict(
+            sorted(
+                (k, v) for k, v in app.config["PROVIDERS"].items() if k != "exams" # sort and remove all exams entry
+            )
+        )
+
+    cache.init_app(app)
+
     app.register_blueprint(bp)
     return app

@@ -1,12 +1,13 @@
 from flask import (
     Blueprint, current_app, render_template,
     request, redirect, url_for, abort, session,
-    Response, stream_with_context, send_file
+    Response, stream_with_context, send_file, after_this_request
 )
 from .providers import get_provider_exams
 from .questions import get_questions
 from .anki import generate_anki_file
-import json
+import json, os
+from .local_cache import questions_cache_key, cache
 
 bp = Blueprint("main", __name__)
 
@@ -76,7 +77,8 @@ def questions_progress():
     def generate():
         for event in get_questions(exam_provider=session["provider"], exam_code=session["exam_code"], url=current_app.config["BASE_URL"], headers=current_app.config["HEADERS"], caching=current_app.config["CACHE_ENABLED"]): 
             if event.get("type") == "done":
-                session["exam_questions"] = event.get("questions", [])
+                cache_key = questions_cache_key(session["provider"], session["exam_code"])
+                cache.set(cache_key, event["questions"])
             
             yield f"data: {json.dumps(event)}\n\n"
 
@@ -85,15 +87,46 @@ def questions_progress():
         mimetype="text/event-stream"
     )
 
+@bp.route("/<provider>/<exam_code>/anki")
+def download_anki(provider, exam_code):
+    cache_key = questions_cache_key(provider, exam_code)
+    questions = cache.get(cache_key)
+
+    if not questions:
+        return "No questions loaded yet", 400
+
+    file_path = None
+
+    file_path = generate_anki_file(questions, exam_code)
+
+
+    @after_this_request
+    def cleanup(response):
+        try:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            current_app.logger.error(f"Cleanup failed: {e}")
+        return response
+
+
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name=f"{exam_code}.apkg"
+    )
+
+
 
 @bp.route("/<provider>/<exam_code>/test")
 def test_mode(provider, exam_code):
-    questions = session.get("exam_questions")
+    cache_key = questions_cache_key(provider, exam_code)
+    questions = cache.get(cache_key)
     if not questions:
         return "Questions not loaded", 400
 
     return render_template(
-        "test_mode.html",
+        "test.html",
         provider_key=provider,
         exam_code=exam_code,
         provider_name=current_app.config["PROVIDERS"][provider],
@@ -103,12 +136,14 @@ def test_mode(provider, exam_code):
 
 @bp.route("/<provider>/<exam_code>/learn")
 def learn_mode(provider, exam_code):
-    questions = session.get("exam_questions")
+    cache_key = questions_cache_key(provider, exam_code)
+    questions = cache.get(cache_key)
+
     if not questions:
         return "Questions not loaded", 400
 
     return render_template(
-        "learn_mode.html",
+        "learn.html",
         provider_key=provider,
         exam_code=exam_code,
         provider_name=current_app.config["PROVIDERS"][provider],
@@ -116,14 +151,4 @@ def learn_mode(provider, exam_code):
         mode="learn"
     )
 
-@bp.route("/<provider>/<exam_code>/anki")
-def download_anki(provider, exam_code):
-    questions = session.get("exam_questions")
 
-    anki_file_path = generate_anki_file(questions, provider, exam_code)
-
-    return send_file(
-        anki_file_path,
-        as_attachment=True,
-        download_name=f"{exam_code}.apkg"
-    )
