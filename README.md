@@ -33,11 +33,16 @@ This application allows you to run ExamTopics exam questions locally without lim
 
 #### On Linux:
 ```bash
-git clone https://github.com/stanislawg1/free-exam-topics.git
-cd free-exam-topics
+git clone https://github.com/stanislawg1/free-exam-topics.git && cd free-exam-topics
+```
+```bash
 python3 -m venv .venv
+```
+```bash
 source ./.venv/bin/activate
-pip install requirements.txt
+```
+```bash
+pip install -r requirements.txt
 python3 run.py
 ```
 
