@@ -1,20 +1,22 @@
 from flask import (
     Blueprint, current_app, render_template,
     request, redirect, url_for, abort, session,
-    Response, stream_with_context, send_file, after_this_request
+    Response, stream_with_context, send_file, after_this_request,
+    send_from_directory, jsonify
 )
 from .providers import get_provider_exams
 from .questions import get_questions
-from .anki import generate_anki_file
+from .anki import generate_anki_file, add_br_if_answer_starts_with_image
 import json, os
 from .local_cache import questions_cache_key, cache
 from .filter import filter_questions_for_test
 from bs4 import BeautifulSoup
 import random
-
-
+import re
+from .utils import _make_asset_paths_absolute
 
 bp = Blueprint("main", __name__)
+
 
 @bp.route("/", methods=["GET", "POST"])
 def index():
@@ -172,7 +174,7 @@ def test_question(provider, exam_code, q_index):
 
     cache_key = questions_cache_key(provider, exam_code)
     questions = cache.get(cache_key)
-    valid_questions, _ = filter_questions_for_test(questions)
+    valid_questions, rejected_count = filter_questions_for_test(questions)
 
     if q_index < 0 or q_index >= len(chosen_indices):
         return "Question not found", 404
@@ -180,14 +182,22 @@ def test_question(provider, exam_code, q_index):
     idx = chosen_indices[q_index]
     q = valid_questions[idx]
 
+    q_html = q.get("question_html")
+    q["question_html"] = _make_asset_paths_absolute(q_html)
+    answer_html = q.get("answer")
+    q["answer"] = _make_asset_paths_absolute(answer_html)
+
+    correct_text = BeautifulSoup(q.get("answer", ""), "html.parser").get_text(strip=True)
+    correct_letters = re.findall(r"[A-Z]", correct_text)
+    is_multi = len(correct_letters) > 1
+
     if request.method == "POST":
         user_answers = session.get("user_answers", {})
-        ans = request.form.get("answer")
-        if ans:
-            user_answers[str(q_index)] = ans
+        ans_list = request.form.getlist("answer")
+        if ans_list:
+            user_answers[str(q_index)] = ans_list
             session["user_answers"] = user_answers
 
-        # przejście do następnego pytania lub wynik
         if q_index + 1 < len(chosen_indices):
             return redirect(url_for(
                 "main.test_question",
@@ -198,6 +208,9 @@ def test_question(provider, exam_code, q_index):
         else:
             return redirect(url_for("main.test_result", provider=provider, exam_code=exam_code))
 
+    user_answers = session.get("user_answers", {})
+    selected_answers = user_answers.get(str(q_index), [])
+
     return render_template(
         "test_question.html",
         provider_name=current_app.config["PROVIDERS"][provider],
@@ -205,7 +218,10 @@ def test_question(provider, exam_code, q_index):
         exam_code=exam_code,
         question=q,
         q_index=q_index,
-        total=len(chosen_indices)
+        total=len(chosen_indices),
+        rejected_count=rejected_count,
+        is_multi=is_multi,
+        selected_answers=selected_answers
     )
 
 @bp.route("/<provider>/<exam_code>/test/result", methods=["GET"])
@@ -219,14 +235,33 @@ def test_result(provider, exam_code):
     valid_questions, _ = filter_questions_for_test(questions)
     user_answers = session.get("user_answers", {})
 
-    correct_count = 0
+    total_points = 0.0
+    full_correct = 0
     for q_num, idx in enumerate(chosen_indices):
         q = valid_questions[idx]
-        correct_ans = BeautifulSoup(q.get("answer", ""), "html.parser").get_text(strip=True)
-        if correct_ans and user_answers.get(str(q_num)) == correct_ans:
-            correct_count += 1
+        correct_text = BeautifulSoup(q.get("answer", ""), "html.parser").get_text(strip=True)
+        correct_letters = re.findall(r"[A-Z]", correct_text)
+        correct_set = set(correct_letters)
 
-    # czyszczenie sesji
+        user_sel = user_answers.get(str(q_num), [])
+        if isinstance(user_sel, str):
+            user_set = {user_sel}
+        elif isinstance(user_sel, (list, tuple)):
+            user_set = set(user_sel)
+        else:
+            user_set = set()
+
+        if not correct_set:
+            continue
+
+        if user_set == correct_set and user_set:
+            total_points += 1.0
+            full_correct += 1
+        else:
+            inter = user_set & correct_set
+            if inter:
+                total_points += len(inter) / len(correct_set)
+
     session.pop("user_answers", None)
     session.pop("test_question_order", None)
     session.pop("test_num_questions", None)
@@ -237,7 +272,9 @@ def test_result(provider, exam_code):
         provider=provider,
         exam_code=exam_code,
         total=len(chosen_indices),
-        correct=correct_count
+        points=total_points,
+        max_points=len(chosen_indices),
+        full_correct=full_correct
     )
 
 
@@ -248,13 +285,112 @@ def learn_mode(provider, exam_code):
 
     if not questions:
         return "Questions not loaded", 400
+    for qq in questions:
+        qq["question_html"] = _make_asset_paths_absolute(qq.get("question_html"))
+        qq["answer"] = _make_asset_paths_absolute(qq.get("answer"))
+    sorted_qs = sorted(questions, key=lambda q: (q.get("topic_number", 0), q.get("question_number", 0)))
+
+    processed = []
+    topics = []
+    for i, q in enumerate(sorted_qs):
+        topic = q.get("topic_number")
+        if topic not in topics:
+            topics.append(topic)
+
+        correct_text = BeautifulSoup(q.get("answer", ""), "html.parser").get_text(strip=True)
+        correct_letters = re.findall(r"[A-Z]", correct_text)
+
+        answer_html = add_br_if_answer_starts_with_image(q.get("answer", ""))
+
+        processed.append({
+            "idx": i,
+            "topic_number": q.get("topic_number"),
+            "question_number": q.get("question_number"),
+            "question_html": q.get("question_html", ""),
+            "choices": q.get("choices", []),
+            "answer_html": answer_html,
+            "correct_letters": correct_letters,
+            "voted_answers": q.get("voted_answers", []),
+            "comments": q.get("comments", []),
+            "link": q.get("link", ""),
+        })
 
     return render_template(
         "learn.html",
         provider_key=provider,
         exam_code=exam_code,
         provider_name=current_app.config["PROVIDERS"][provider],
-        questions=questions,
+        questions=processed,
+        topics=sorted(topics),
+        exam_name=session["exam_name"],
     )
+
+
+@bp.route("/<provider>/<exam_code>/learn/data")
+def learn_data(provider, exam_code):
+    cache_key = questions_cache_key(provider, exam_code)
+    questions = cache.get(cache_key)
+    if not questions:
+        return jsonify({"ok": False, "error": "Questions not loaded"}), 400
+
+    # normalize images
+    for qq in questions:
+        qq["question_html"] = _make_asset_paths_absolute(qq.get("question_html"))
+        qq["answer"] = _make_asset_paths_absolute(qq.get("answer"))
+
+    sorted_qs = sorted(questions, key=lambda q: (q.get("topic_number", 0), q.get("question_number", 0)))
+
+    processed = []
+    topics = []
+    for i, q in enumerate(sorted_qs):
+        topic = q.get("topic_number")
+        if topic not in topics:
+            topics.append(topic)
+
+        correct_text = BeautifulSoup(q.get("answer", ""), "html.parser").get_text(strip=True)
+        correct_letters = re.findall(r"[A-Z]", correct_text)
+        answer_html = add_br_if_answer_starts_with_image(q.get("answer", ""))
+
+        processed.append({
+            "idx": i,
+            "topic_number": q.get("topic_number"),
+            "question_number": q.get("question_number"),
+            "question_html": q.get("question_html", ""),
+            "choices": q.get("choices", []),
+            "answer_html": answer_html,
+            "correct_letters": correct_letters,
+            "voted_answers": q.get("voted_answers", []),
+            "comments": q.get("comments", []),
+            "link": q.get("link", ""),
+        })
+
+    return jsonify({"ok": True, "questions": processed, "topics": sorted(topics)})
+
+
+
+@bp.route("/<provider>/<exam_code>/learn/save", methods=["POST"])
+def learn_save(provider, exam_code):
+    data = request.get_json(silent=True) or {}
+    q_idx = data.get("q_idx")
+    answers = data.get("answers")
+    shown = data.get("shown", False)
+
+    if q_idx is None:
+        return {"ok": False, "error": "missing q_idx"}, 400
+
+    learn_answers = session.get("learn_answers", {})
+    learn_answers[str(q_idx)] = {
+        "answers": answers,
+        "shown": bool(shown)
+    }
+    session["learn_answers"] = learn_answers
+
+    return {"ok": True}
+
+
+@bp.route('/assets/<path:filename>')
+def assets(filename):
+    assets_dir = os.path.abspath(os.path.join(current_app.root_path, '..', 'assets'))
+    return send_from_directory(assets_dir, filename)
 
 

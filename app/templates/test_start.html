@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Start Test - {{ exam_code }}</title>
+    <title>Start Exam - {{ exam_name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
 </head>
 <body>
@@ -12,20 +12,20 @@
         <p>Start your exam session</p>
 
         <p class="available-questions">
-            Available questions: <strong>{{ total_questions }}</strong>
+            Available questions: {{ total_questions }}
         </p>
 
+        <form method="post" action="{{ url_for('main.test_start', provider=provider, exam_code=exam_code) }}" class="start-test-form">
+            <label for="num_questions">Set exam questions number:</label>
+            <input type="number" name="num_questions" id="num_questions" min="1" max="{{ total_questions }}" value="{{ total_questions }}">
+            <button type="submit" class="start-button">Start Exam</button>
+        </form>
+        <br>
         {% if rejected_count > 0 %}
         <p class="rejected-info">
-            ℹ️ Please note that {{ rejected_count }} question{{ "s" if rejected_count > 1 else "" }} were rejected because they have no choices.
+            ℹ️ Please note that {{ rejected_count }} question{{ "s" if rejected_count > 1 else "" }} were rejected because they aren't choice questions.
         </p>
         {% endif %}
-
-        <form method="get" action="{{ url_for('main.test_start', provider=provider, exam_code=exam_code) }}" class="start-test-form">
-            <label for="num_questions">Number of questions:</label>
-            <input type="number" name="num_questions" id="num_questions" min="1" max="{{ total_questions }}" value="{{ total_questions }}">
-            <button type="submit" class="start-button">Start Test</button>
-        </form>
     </div>
 </div>
 </body>

@@ -2,17 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test Result - {{ exam_code }}</title>
+    <title>Exam Result - {{ exam_code }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
 </head>
 <body>
 <div class="center-container">
-    <div class="exam-card result-card">
-        <h1>Test Completed</h1>
-        <p>You answered {{ correct }} out of {{ total }} questions correctly.</p>
+    <div class="exam-card result-card left">
+        <h1>Exam Completed</h1>
+    <p>
+        You scored {{ points|round(2) }} out of {{ max_points }} possible points
+        {% if max_points and max_points > 0 %}
+            - <strong>{{ (points / max_points * 100) | round(2) }}</strong>%
+        {% else %}
+            - <strong>0.00</strong>%
+        {% endif %}
+    </p>
+    <p>Fully correct answers: {{ full_correct }} / {{ total }}</p>
 
-        <a href="{{ url_for('main.test_start', provider=provider, exam_code=exam_code) }}">Restart Test</a>
-        <a href="{{ url_for('main.exam_detail', provider=provider, exam_code=exam_code) }}">Back to Exam</a>
+    <div class="result-actions">
+        <a class="btn primary" href="{{ url_for('main.test_start', provider=provider, exam_code=exam_code) }}">Restart Exam</a>
+        <a class="btn secondary" href="{{ url_for('main.exam_detail', provider=provider, exam_code=exam_code) }}">Back to Exam panel</a>
+    </div>
     </div>
 </div>
 </body>

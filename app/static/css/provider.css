@@ -48,9 +48,9 @@ body {
   border: 1px solid #ccc;
   margin-bottom: 1.2rem;
 
-  white-space: normal;      /* pozwala zawijać */
-  overflow: visible;        /* pokazuje cały tekst */
-  text-overflow: clip;      /* nie ucina */
+  white-space: normal; 
+  overflow: visible;
+  text-overflow: clip; 
 }
 
 

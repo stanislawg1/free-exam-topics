@@ -13,7 +13,7 @@ def filter_discussion_links(all_links):
     pattern = re.compile(
         r"^https://www\.examtopics\.com/discussions/"
         r"[^/]+/view/"
-        r"\d+-exam-[^/]+-topic-\d+-question-\d+-discussion/?$"
+        r"\d+-exam-.*$"
     )
 
     filtered_links = []

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Learn {{ exam_name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/learn.css') }}">
+</head>
+<body>
+<div class="page-wrapper">
+  <div class="exam-topbar">
+    <div class="exam-topbar-inner">
+      <a href="{{ url_for('main.exam_detail', provider=provider_key, exam_code=exam_code) }}" class="exit-btn">Exit</a>
+      <h1 class="exam-topbar-title">Learning - {{ exam_name }}</h1>
+    </div>
+  </div>
+  <header class="learn-header">
+    <div class="learn-header-inner">
+      <div class="learn-controls">
+        <label>Topic</label>
+        <select id="topic-select" class="learn-select"></select>
+
+        <label>Question</label>
+        <select id="question-select" class="learn-select"></select>
+      </div>
+    </div>
+  </header>
+
+  <main class="learn-main">
+    <div class="exam-card left learn-main-card">
+      <div id="question-area" class="question-content"></div>
+      <div id="answer-area" class="answer-block" aria-hidden="true"></div>
+
+      <div class="footer-buttons">
+        <button id="prev-q" class="prev-link">Previous</button>
+        <button id="show-btn" class="start-button">Show answer</button>
+        <button id="next-q" class="prev-link">Next</button>
+      </div>
+
+      <div id="comments-area" class="comments-block" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <script>
+    window.LEARN_CONFIG = {
+      learnDataUrl: "{{ url_for('main.learn_data', provider=provider_key, exam_code=exam_code) }}",
+      learnSaveUrl: "{{ url_for('main.learn_save', provider=provider_key, exam_code=exam_code) }}"
+    };
+  </script>
+
+  <script src="{{ url_for('static', filename='js/learn.js') }}"></script>
+</body>
+</html>

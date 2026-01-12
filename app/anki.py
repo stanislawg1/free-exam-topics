@@ -149,11 +149,9 @@ def add_br_if_answer_starts_with_image(answer_html: str) -> str:
     if not first:
         return str(soup)
 
-    # jeśli już zaczyna się od <br>, nic nie rób
     if first.name == "br":
         return str(soup)
 
-    # jeśli pierwszy realny element zawiera <img>
     if contains_img(first):
         soup.insert(0, soup.new_tag("br"))
 

@@ -52,7 +52,7 @@ evt.onmessage = (e) => {
     }
 
     if (data.type === "error") {
-        stageEl.innerText = "Błąd ❌";
+        stageEl.innerText = "Error ❌";
         messageEl.innerText = data.message;
         evt.close();
     }
