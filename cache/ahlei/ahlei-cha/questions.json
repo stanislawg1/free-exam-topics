@@ -1,0 +1,157 @@
+[
+    {
+        "link": "https://www.examtopics.com/discussions/ahlei/view/26013-exam-ahlei-cha-topic-1-question-9-discussion/",
+        "title": "Exam AHLEI-CHA topic 1 question 9 discussion",
+        "topic_number": 1,
+        "question_number": 9,
+        "question_html": "<p class=\"card-text\">\n The number of rooms reserved for one group is called a:\n <br/>\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "hold"
+            },
+            {
+                "letter": "B",
+                "text": "tie"
+            },
+            {
+                "letter": "C",
+                "text": "group"
+            },
+            {
+                "letter": "D",
+                "text": "block"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [],
+        "comments": [
+            {
+                "username": "harryle",
+                "badge": null,
+                "date": "Sat 18 Jul 2020 04:55",
+                "content": "it should be \"block\"",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/ahlei/view/110871-exam-ahlei-cha-topic-1-question-2-discussion/",
+        "title": "Exam AHLEI-CHA topic 1 question 2 discussion",
+        "topic_number": 1,
+        "question_number": 2,
+        "question_html": "<p class=\"card-text\">\n A public area in a hotel that serves as an entrance or waiting area is called a:\n <br/>\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "reception area"
+            },
+            {
+                "letter": "B",
+                "text": "entrance hall"
+            },
+            {
+                "letter": "C",
+                "text": "lobby"
+            },
+            {
+                "letter": "D",
+                "text": "hall"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 1,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "Macky_2005",
+                "badge": "Selected Answer:B",
+                "date": "Mon 11 Sep 2023 01:34",
+                "content": "I originally thought it would be a lobby but after re-reading it became clearer",
+                "votes": 1
+            },
+            {
+                "username": "awsrudra",
+                "badge": null,
+                "date": "Fri 02 Jun 2023 13:03",
+                "content": "random",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/ahlei/view/17795-exam-ahlei-cha-topic-1-question-33-discussion/",
+        "title": "Exam AHLEI-CHA topic 1 question 33 discussion",
+        "topic_number": 1,
+        "question_number": 33,
+        "question_html": "<p class=\"card-text\">\n What is meant by the term \"a la Carte\"?\n <br/>\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "it is a menu that has price stated for each item offered, instead of a fixed price for an entire meal"
+            },
+            {
+                "letter": "B",
+                "text": "it is the term used to refer to the fresh linen used in the rooms"
+            },
+            {
+                "letter": "C",
+                "text": "it refers to the carts used for room service"
+            },
+            {
+                "letter": "D",
+                "text": "it is the French term for the center pieces on the dinner tables"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n C\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 1,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "nano38",
+                "badge": "Selected Answer:A",
+                "date": "Wed 13 Jul 2022 22:52",
+                "content": "A LA CARTE IS FINE DINING/ TAKING THE GUEST ORDER",
+                "votes": 1
+            },
+            {
+                "username": "Fosterello",
+                "badge": null,
+                "date": "Wed 16 Sep 2020 03:30",
+                "content": "Answer is A",
+                "votes": 1
+            },
+            {
+                "username": "lawrance",
+                "badge": null,
+                "date": "Fri 12 Jun 2020 14:21",
+                "content": "should be A",
+                "votes": 1
+            },
+            {
+                "username": "lawrance",
+                "badge": null,
+                "date": "Mon 18 May 2020 15:47",
+                "content": "Should be A",
+                "votes": 1
+            },
+            {
+                "username": "Govind_T",
+                "badge": null,
+                "date": "Thu 02 Apr 2020 14:14",
+                "content": "It is A",
+                "votes": 1
+            }
+        ]
+    }
+]

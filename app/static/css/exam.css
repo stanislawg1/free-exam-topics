@@ -1,0 +1,124 @@
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #eef2f7, #dfe7f1);
+    padding: 1rem;
+}
+
+.center-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.exam-card {
+    background: #ffffff;
+    padding: 3rem 4vw;
+    border-radius: 1.5rem;
+    box-shadow: 0 1rem 2.5rem rgba(0,0,0,0.15);
+
+    width: 90%;
+    max-width: 40rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.exam-card h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    word-break: break-word;
+}
+
+.exam-card p {
+    margin-bottom: 1rem;
+    color: #4b5563;
+}
+
+#progress-container {
+    width: 100%;
+    margin: 1.5rem 0;
+}
+
+.mode-selector h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #4f46e5;
+}
+
+.mode-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+.mode-tile {
+    flex: 1;
+    background: #f0f4ff;
+    padding: 2rem 1rem;
+    border-radius: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #1f2937;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.mode-tile span {
+    margin-top: 0.8rem;
+}
+
+.mode-tile:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    background: #e0e7ff;
+}
+
+.back-tile {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 14rem;
+    padding: 1rem 0;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    background-color: #ef4444;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.back-tile:hover {
+    background-color: #b91c1c;
+    transform: translateY(-3px);
+}
+
+
+@media (max-width: 768px) {
+    .mode-grid {
+        flex-direction: column;
+    }
+    .mode-tile {
+        width: 100%;
+    }
+}

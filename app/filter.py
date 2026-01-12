@@ -1,0 +1,51 @@
+import re
+from urllib.parse import urlparse
+from concurrent.futures import ThreadPoolExecutor
+
+def _extract_exam_id(url: str) -> str | None:
+    path = urlparse(url).path.lower()
+    
+    m = re.search(r"exam-([a-z0-9\-_.]+)", path)
+
+    return m.group(1) if m else None
+
+def filter_discussion_links(all_links):
+    pattern = re.compile(
+        r"^https://www\.examtopics\.com/discussions/"
+        r"[^/]+/view/"
+        r"\d+-exam-.*$"
+    )
+
+    filtered_links = []
+
+    for link in all_links:
+        if pattern.match(link):
+            filtered_links.append(link)
+    
+    return filtered_links
+
+def filter_exam_links(exam_name: str, all_links: list[str]) -> list[str]:
+    exam_name = exam_name.lower()
+
+    def check(url):
+        exam_id = _extract_exam_id(url)
+        return url if exam_id and exam_name in exam_id else None
+
+    with ThreadPoolExecutor() as ex:
+        results = ex.map(check, all_links)
+
+    return [r for r in results if r]
+
+
+def filter_questions_for_test(questions):
+
+    valid_questions = []
+    rejected_count = 0
+
+    for q in questions:
+        if not q.get("choices"):
+            rejected_count += 1
+            continue
+        valid_questions.append(q)
+
+    return valid_questions, rejected_count

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question {{ q_index + 1 }} / {{ total }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+</head>
+<body>
+<div class="center-container">
+    <div class="exam-card left">
+        <h1>Question {{ q_index + 1 }} / {{ total }}</h1>
+
+        <div class="question-content">
+            {{ question.question_html | safe }}
+        </div>
+
+        <form method="post">
+            {% for choice in question.choices %}
+            <div class="choice">
+                {% if is_multi %}
+                <input type="checkbox" id="choice_{{ choice.letter }}" name="answer" value="{{ choice.letter }}" {% if choice.letter in selected_answers %}checked{% endif %}>
+                {% else %}
+                <input type="radio" id="choice_{{ choice.letter }}" name="answer" value="{{ choice.letter }}" {% if choice.letter in selected_answers %}checked{% endif %}>
+                {% endif %}
+                <label for="choice_{{ choice.letter }}">{{ choice.letter }}. {{ choice.text }}</label>
+            </div>
+            {% endfor %}
+
+            <div class="nav-buttons">
+                {% if q_index > 0 %}
+                <a href="{{ url_for('main.test_question', provider=provider, exam_code=exam_code, q_index=q_index-1) }}" class="prev-link">&larr; Previous</a>
+                {% else %}
+                <a href="{{ url_for('main.exam_detail', provider=provider, exam_code=exam_code) }}" class="prev-link">Close the exam</a>
+                {% endif %}
+
+                <button type="submit" class="next-button">Next</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

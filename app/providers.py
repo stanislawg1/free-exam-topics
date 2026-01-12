@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-
 def get_all_providers(base_url: str, headers: dict):
     response = requests.get(f"{base_url}/exams/", headers=headers)
     soup = BeautifulSoup(response.text, "html.parser")
@@ -16,8 +15,6 @@ def get_all_providers(base_url: str, headers: dict):
             result[slug] = name
 
     return result
-
-
 
 def get_provider_exams(base_url: str, headers: dict, provider_name):
     response = None

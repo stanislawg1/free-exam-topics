@@ -3,15 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Free Exam Topics - {{ exam_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/exam.css') }}">
 </head>
 <body>
+    <div class="center-container">
+        <div class="exam-card">
+            <h1>{{ exam_name }}</h1>
+            <p>Provided by {{ provider_name }}</p>
 
-    <h1>{{ exam_name }}</h1>
-    <p>Provider: {{ provider_name }} ({{ provider_key }})</p>
+            <h3 id="stage"></h3>
+            <p id="message"></p>
 
+            <div id="progress-container" style="display:none;">
+                <progress id="progress" value="0" max="100"></progress>
+                <span id="progress-text"></span>
+            </div>
 
-    <a href="{{ url_for('main.provider', provider=provider_key) }}">Back to exams</a>
-    <a href="{{ url_for('main.index') }}">Back to providers</a>
+            <div id="mode-container"></div>
 
+            <a class="back-tile" href="{{ url_for('main.provider', provider=provider_key) }}">Back to exams</a>
+        </div>
+    </div>
+
+    <script>
+      const providerKey = "{{ provider_key }}";
+      const examCode = "{{ exam_code }}";
+  </script>
+    <script src="{{ url_for('static', filename='js/exam_progress.js') }}"></script>
 </body>
 </html>
