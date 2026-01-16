@@ -168,7 +168,11 @@ function handleAnswer(q_idx) {
 	const inputs = Array.from(document.querySelectorAll('#choices-container input[name="answer"]'))
 	const selected = inputs.filter(i => i.checked).map(i => i.value)
 	saveAnswer(q_idx, selected, false)
-	revealAnswer(q)
+
+	const isMulti = q.correct_letters && q.correct_letters.length > 1
+	if (!isMulti) {
+		revealAnswer(q)
+	}
 }
 
 function saveAnswer(q_idx, answers, shown) {
@@ -266,7 +270,9 @@ function onDataLoaded() {
 			const idx = Number(questionSelect.value)
 			const q = QUESTIONS.find(x => x.idx == idx)
 			if (q) {
-				saveAnswer(idx, null, true)
+				const inputs = Array.from(document.querySelectorAll('#choices-container input[name="answer"]'))
+				const selected = inputs.filter(i => i.checked).map(i => i.value)
+				saveAnswer(idx, selected.length ? selected : null, true)
 				revealAnswer(q)
 			}
 		})

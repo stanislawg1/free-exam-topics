@@ -1,0 +1,1597 @@
+[
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312161-exam-terraform-associate-003-topic-1-question-12-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 12 discussion",
+        "topic_number": 1,
+        "question_number": 12,
+        "question_html": "<p class=\"card-text\">\n When should you use the force-unlock command?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "When apply has failed due to a state lock."
+            },
+            {
+                "letter": "B",
+                "text": "When automatic unlocking has failed."
+            },
+            {
+                "letter": "C",
+                "text": "When you see a status message stating that you cannot acquire the lock."
+            },
+            {
+                "letter": "D",
+                "text": "When you have a high priority change."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 2,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "Ranjanaj",
+                "badge": "Selected Answer:B",
+                "date": "Thu 11 Sep 2025 03:11",
+                "content": "You should use terraform force-unlock only as a last resort when you're absolutely sure that the lock is stale or no longer valid. from the options \"when automatic unloacking has failed\"",
+                "votes": 1
+            },
+            {
+                "username": "LinuxChamp",
+                "badge": "Selected Answer:B",
+                "date": "Mon 08 Sep 2025 21:59",
+                "content": "Use force-unlock only when automatic unlocking has failed.\nB",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312160-exam-terraform-associate-003-topic-1-question-11-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 11 discussion",
+        "topic_number": 1,
+        "question_number": 11,
+        "question_html": "<p class=\"card-text\">\n Which of these actions will prevent two Terraform runs from changing the same state file at the same time?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Delete the state before running Terraform."
+            },
+            {
+                "letter": "B",
+                "text": "Refresh the state after running Terraform."
+            },
+            {
+                "letter": "C",
+                "text": "Run Terraform with parallelism set to 1."
+            },
+            {
+                "letter": "D",
+                "text": "Configure state locking for your state backend."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n D\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "D",
+                "vote_count": 2,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "Ranjanaj",
+                "badge": "Selected Answer:D",
+                "date": "Thu 11 Sep 2025 02:44",
+                "content": "State locking ensures that:\nOnly one Terraform process can modify the state at a time.\nIt prevents race conditions and corruption of the state file.\nIf a lock is in place, other runs will wait or fail until the lock is released",
+                "votes": 1
+            },
+            {
+                "username": "LinuxChamp",
+                "badge": "Selected Answer:D",
+                "date": "Mon 08 Sep 2025 21:56",
+                "content": "Backends like S3 with DynamoDB or Consul support state locking to avoid simultaneous changes.\nAnswer: D",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312158-exam-terraform-associate-003-topic-1-question-9-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 9 discussion",
+        "topic_number": 1,
+        "question_number": 9,
+        "question_html": "<p class=\"card-text\">\n Which Terraform command checks that your configuration syntax is correct?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "terraform show"
+            },
+            {
+                "letter": "B",
+                "text": "terraform init"
+            },
+            {
+                "letter": "C",
+                "text": "terraform fmt"
+            },
+            {
+                "letter": "D",
+                "text": "terraform validate"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n D\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "D",
+                "vote_count": 1,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "LinuxChamp",
+                "badge": "Selected Answer:D",
+                "date": "Mon 08 Sep 2025 21:52",
+                "content": "terraform validate → Checks configuration files for syntax correctness and internal consistency.\nAnswer: D",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312275-exam-terraform-associate-003-topic-1-question-1-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 1 discussion",
+        "topic_number": 1,
+        "question_number": 1,
+        "question_html": "<p class=\"card-text\">\n As a developer, you want to ensure your plugins are up-to-date with the latest versions. Which Terraform command should you use?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "terraform refresh -upgrade"
+            },
+            {
+                "letter": "B",
+                "text": "terraform apply -upgrade"
+            },
+            {
+                "letter": "C",
+                "text": "terraform providers -upgrade"
+            },
+            {
+                "letter": "D",
+                "text": "terraform init -upgrade"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n D\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "D",
+                "vote_count": 2,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "Ranjanaj",
+                "badge": "Selected Answer:D",
+                "date": "Thu 11 Sep 2025 01:10",
+                "content": "What it does:\nReinitializes your Terraform working directory.\nChecks for newer versions of providers and modules.\nDownloads the latest versions allowed by your version constraints in terraform configuration files.",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312156-exam-terraform-associate-003-topic-1-question-5-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 5 discussion",
+        "topic_number": 1,
+        "question_number": 5,
+        "question_html": "<p class=\"card-text\">\n All standard backend types support state storage, locking, and remote operations like plan, apply, and destroy.\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "True"
+            },
+            {
+                "letter": "B",
+                "text": "False"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 3,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "LinuxChamp",
+                "badge": "Selected Answer:B",
+                "date": "Mon 08 Sep 2025 21:27",
+                "content": "Not all standard Terraform backends support state locking or remote operations (plan, apply, destroy).\nCorrect Answer: B. False",
+                "votes": 3
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/310823-exam-terraform-associate-003-topic-1-question-7-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 7 discussion",
+        "topic_number": 1,
+        "question_number": 7,
+        "question_html": "<p class=\"card-text\">\n Which argument(s) are required when declaring a Terraform variable?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "type"
+            },
+            {
+                "letter": "B",
+                "text": "default"
+            },
+            {
+                "letter": "C",
+                "text": "description"
+            },
+            {
+                "letter": "D",
+                "text": "All of the above"
+            },
+            {
+                "letter": "E",
+                "text": "None of the above"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n E\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "E",
+                "vote_count": 3,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "A",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "LinuxChamp",
+                "badge": "Selected Answer:E",
+                "date": "Mon 08 Sep 2025 21:25",
+                "content": "You can optionally add type, default, or description, but they are not mandatory.\nCorrect Answer: E. None of the above",
+                "votes": 1
+            },
+            {
+                "username": "GoranJankulovski",
+                "badge": "Selected Answer:E",
+                "date": "Sat 30 Aug 2025 14:57",
+                "content": "All of these are optional, variable can be empty block.",
+                "votes": 1
+            },
+            {
+                "username": "Danilus",
+                "badge": "Selected Answer:E",
+                "date": "Sun 24 Aug 2025 02:25",
+                "content": "None  basically we could define a block  empty like this \nvariable \"example_variable\" {}",
+                "votes": 1
+            },
+            {
+                "username": "bmitadis",
+                "badge": "Selected Answer:A",
+                "date": "Thu 21 Aug 2025 19:28",
+                "content": "cant create vriable without a type",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312157-exam-terraform-associate-003-topic-1-question-8-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 8 discussion",
+        "topic_number": 1,
+        "question_number": 8,
+        "question_html": "<p class=\"card-text\">\n terraform apply is failing with the following error. What next step should you take to determine the root cause of the problem?\n <br/>\n Error loading state: AccessDenied: Access Denied status code: 403, request id: 288766CE5CCA24A0, host id: web.example.com\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Run terraform login to reauthenticate with the provider."
+            },
+            {
+                "letter": "B",
+                "text": "Review /var/log/terraform.log for error messages."
+            },
+            {
+                "letter": "C",
+                "text": "Review syslog for Terraform error messages."
+            },
+            {
+                "letter": "D",
+                "text": "Set TF_LOG=DEBUG."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n D\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "D",
+                "vote_count": 2,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "Ranjanaj",
+                "badge": "Selected Answer:D",
+                "date": "Thu 11 Sep 2025 02:34",
+                "content": "Run Terraform with debug logs to get more detailed output\nTF_LOG=DEBUG terraform apply",
+                "votes": 1
+            },
+            {
+                "username": "LinuxChamp",
+                "badge": "Selected Answer:D",
+                "date": "Mon 08 Sep 2025 21:35",
+                "content": "TF_LOG=DEBUG gives detailed provider/backend logs that will reveal the exact cause.\nAnswer: D",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312159-exam-terraform-associate-003-topic-1-question-10-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 10 discussion",
+        "topic_number": 1,
+        "question_number": 10,
+        "question_html": "<p class=\"card-text\">\n How does the HCP Terraform/Terraform Cloud integration differ from backends such as S3, Consul, etc.?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "It can execute Terraform runs on dedicated infrastructure in HCP Terraform/Terraform Cloud."
+            },
+            {
+                "letter": "B",
+                "text": "It doesn’t show the output of a terraform apply locally."
+            },
+            {
+                "letter": "C",
+                "text": "It is only available to paying customers."
+            },
+            {
+                "letter": "D",
+                "text": "All of the above."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 1,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "D",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "Ajkd",
+                "badge": "Selected Answer:D",
+                "date": "Fri 02 Jan 2026 05:50",
+                "content": "it supports all and only available to paid customers with all features.",
+                "votes": 1
+            },
+            {
+                "username": "LinuxChamp",
+                "badge": "Selected Answer:A",
+                "date": "Mon 08 Sep 2025 21:54",
+                "content": "answer: A",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/350722-exam-terraform-associate-003-topic-1-question-42-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 42 discussion",
+        "topic_number": 1,
+        "question_number": 42,
+        "question_html": "<p class=\"card-text\">\n You decide to move a Terraform state file to Amazon S3 from another location. You write the code shown in the Exhibit space into a file called backend.tf.\n <br/>\n <img src=\"terraform-associate-003/image6_5dd5901f03ca4ec8b42a3593e10c911f_unique_local_name.png\" title=\"image6\"/>\n <br/>\n Which command will migrate your current state file to the new S3 backend?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "terraform refresh"
+            },
+            {
+                "letter": "B",
+                "text": "terraform init"
+            },
+            {
+                "letter": "C",
+                "text": "terraform push"
+            },
+            {
+                "letter": "D",
+                "text": "terraform state"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "chips",
+                "badge": "Selected Answer:A",
+                "date": "Sun 28 Dec 2025 21:25",
+                "content": "terraform push is deprecated, and anyway is not used for S3 backend migration. The command terraform init itself can reinigialize the working directory, detect backend changes, and prompts to migrate the existing local state to the new backend.",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/328404-exam-terraform-associate-003-topic-1-question-6-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 6 discussion",
+        "topic_number": 1,
+        "question_number": 6,
+        "question_html": "<p class=\"card-text\">\n A resource block is shown in the Exhibit section of this page.\n <br/>\n <img src=\"terraform-associate-003/image1_b4f4a468afb34279b0a47a38389c4ab9_unique_local_name.png\" title=\"image1\"/>\n <br/>\n How would you reference the attribute name of this resource in HCL?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "data.kubernetes_namespace.name"
+            },
+            {
+                "letter": "B",
+                "text": "kubernetes_namespace.example.name"
+            },
+            {
+                "letter": "C",
+                "text": "kubernetes_namespace.test.name"
+            },
+            {
+                "letter": "D",
+                "text": "resource.kubernetes_namespace.example.name"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 1,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "willies",
+                "badge": "Selected Answer:B",
+                "date": "Sun 07 Dec 2025 09:35",
+                "content": "You don't need to use 'resource' when referencing a resource",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312893-exam-terraform-associate-003-topic-1-question-56-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 56 discussion",
+        "topic_number": 1,
+        "question_number": 56,
+        "question_html": "<p class=\"card-text\">\n Which of the following is available only in HCP Terraform workspaces and not in Terraform CLI?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Secure variable storage."
+            },
+            {
+                "letter": "B",
+                "text": "Support for multiple cloud providers."
+            },
+            {
+                "letter": "C",
+                "text": "Dry runs with terraform plan."
+            },
+            {
+                "letter": "D",
+                "text": "Using one workspace’s state as a data source for another."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 4,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "D",
+                "vote_count": 3,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "enasuz",
+                "badge": "Selected Answer:D",
+                "date": "Wed 03 Dec 2025 09:34",
+                "content": "D is correct",
+                "votes": 2
+            },
+            {
+                "username": "luisgu",
+                "badge": "Selected Answer:A",
+                "date": "Sun 26 Oct 2025 19:15",
+                "content": "it's A",
+                "votes": 2
+            },
+            {
+                "username": "brugmany",
+                "badge": "Selected Answer:D",
+                "date": "Mon 06 Oct 2025 14:33",
+                "content": "D. Using one workspace's state as a data source for another\n\nWhy this is HCP-only:\nHCP Terraform supports remote state sharing between workspaces, allowing you to reference outputs from one workspace in another using the terraform_remote_state data source.\n\nThis enables cross-environment dependencies, which isn’t natively possible in standalone CLI workflows without manual state juggling.\n\nWith answer A. Secure variable storage. This is available in both CLI and HCP.",
+                "votes": 1
+            },
+            {
+                "username": "f0f1e05",
+                "badge": "Selected Answer:A",
+                "date": "Mon 22 Sep 2025 15:58",
+                "content": "A is correct answer.",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/316739-exam-terraform-associate-003-topic-1-question-106-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 106 discussion",
+        "topic_number": 1,
+        "question_number": 106,
+        "question_html": "<p class=\"card-text\">\n When using Terraform to deploy resources into Azure, which scenarios are true regarding state files?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Changing resources via the Azure Cloud Console records the change in the current state file."
+            },
+            {
+                "letter": "B",
+                "text": "When you change a resource via the Azure Cloud Console. Terraform records the changes in a new state file."
+            },
+            {
+                "letter": "C",
+                "text": "When you change a Terraform-managed resource via the Azure Cloud Console. Terraform updates the state file to reflect the change during the next plan or apply."
+            },
+            {
+                "letter": "D",
+                "text": "Changing resources via the Azure Cloud Console does not update current state file."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n D\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "C",
+                "vote_count": 2,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "ven",
+                "badge": "Selected Answer:C",
+                "date": "Wed 03 Dec 2025 18:24",
+                "content": "Both C and D are correct",
+                "votes": 1
+            },
+            {
+                "username": "ShakthiGCP",
+                "badge": "Selected Answer:C",
+                "date": "Mon 24 Nov 2025 03:26",
+                "content": "Both C and D are correct.",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312920-exam-terraform-associate-003-topic-1-question-57-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 57 discussion",
+        "topic_number": 1,
+        "question_number": 57,
+        "question_html": "<p class=\"card-text\">\n Which two steps are required to provision new infrastructure in the Terraform workflow? (Choose two.)\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "import"
+            },
+            {
+                "letter": "B",
+                "text": "init"
+            },
+            {
+                "letter": "C",
+                "text": "apply"
+            },
+            {
+                "letter": "D",
+                "text": "plan"
+            },
+            {
+                "letter": "E",
+                "text": "validate"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n BC\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "BC",
+                "vote_count": 5,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "BD",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "ven",
+                "badge": "Selected Answer:BC",
+                "date": "Wed 03 Dec 2025 16:17",
+                "content": "B and C. plan is helpful command but not strictly required.",
+                "votes": 1
+            },
+            {
+                "username": "March2023",
+                "badge": "Selected Answer:BC",
+                "date": "Wed 05 Nov 2025 02:53",
+                "content": "B and C. If you skip plan and do an auto approve with apply, Plan still runs in the background beforehand.",
+                "votes": 4
+            },
+            {
+                "username": "f0f1e05",
+                "badge": "Selected Answer:BD",
+                "date": "Tue 23 Sep 2025 09:14",
+                "content": "In my opinion, it will be B and D.",
+                "votes": 1
+            },
+            {
+                "username": "brugmany",
+                "badge": null,
+                "date": "Mon 29 Sep 2025 17:12",
+                "content": "Why, B and C (init + apply) are correct, Plan is wrong, because plan alone doesn’t create resources.\n\nTerraform Workflow Steps\n\nTerraform init: sets up backend & providers. Mandatory before anything else.\nTerraform plan: creates and shows you an execution plan. It’s read-only no infrastructure is changed yet. Think of it as a “preview” / dry-run.\nTerraform apply: takes the plan and executes it, actually creating or modifying resources.\n\nThis is the step where provisioning happens.",
+                "votes": 4
+            },
+            {
+                "username": "f0f1e05",
+                "badge": null,
+                "date": "Mon 29 Sep 2025 14:19",
+                "content": "B and C, sorry for previous mistake",
+                "votes": 3
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/316585-exam-terraform-associate-003-topic-1-question-35-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 35 discussion",
+        "topic_number": 1,
+        "question_number": 35,
+        "question_html": "<p class=\"card-text\">\n Which of these is true about Terraform’s plugin-based architecture?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "You can create a provider for your API if none exists."
+            },
+            {
+                "letter": "B",
+                "text": "Terraform can only source providers from the internet."
+            },
+            {
+                "letter": "C",
+                "text": "All providers are part of the Terraform core binary."
+            },
+            {
+                "letter": "D",
+                "text": "Every provider in a configuration has its own state file for its resources."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "ShakthiGCP",
+                "badge": "Selected Answer:A",
+                "date": "Fri 21 Nov 2025 13:45",
+                "content": "This is a core benefit of Terraform's plugin-based architecture. Terraform providers are essentially plugins that extend Terraform's capabilities to interact with various APIs (cloud providers, SaaS services, custom internal systems). If a provider doesn't exist for a specific API you need to manage, you can absolutely write your own custom provider using Go. This is a powerful extensibility feature.",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/315489-exam-terraform-associate-003-topic-1-question-80-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 80 discussion",
+        "topic_number": 1,
+        "question_number": 80,
+        "question_html": "<p class=\"card-text\">\n You have a Terraform configuration that defines a single virtual machine with no references to it. You have run terraform apply to create the resource, then removed the resource definition from your Terraform configuration file.\n <br/>\n What will happen when you run terraform apply in the working directory again?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Terraform will destroy the virtual machine."
+            },
+            {
+                "letter": "B",
+                "text": "Terraform will remove the virtual machine from the state file, but the resource will still exist."
+            },
+            {
+                "letter": "C",
+                "text": "Terraform will error."
+            },
+            {
+                "letter": "D",
+                "text": "Nothing."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 3,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "B",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "real111",
+                "badge": "Selected Answer:A",
+                "date": "Thu 01 Jan 2026 12:29",
+                "content": "Terraform will destroy the resource",
+                "votes": 1
+            },
+            {
+                "username": "ShakthiGCP",
+                "badge": "Selected Answer:A",
+                "date": "Mon 24 Nov 2025 02:00",
+                "content": "A is correct",
+                "votes": 2
+            },
+            {
+                "username": "March2023",
+                "badge": "Selected Answer:B",
+                "date": "Mon 03 Nov 2025 02:15",
+                "content": "Terraform removes the resource from state\nThe real VM still exists in your cloud provider\nNo destroy action occurs",
+                "votes": 1
+            },
+            {
+                "username": "Barty94",
+                "badge": null,
+                "date": "Tue 04 Nov 2025 16:34",
+                "content": "No, it will remove your VM, it is no longer in configuration and will remove it, you can test it, A is correct.",
+                "votes": 5
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/313261-exam-terraform-associate-003-topic-1-question-44-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 44 discussion",
+        "topic_number": 1,
+        "question_number": 44,
+        "question_html": "<p class=\"card-text\">\n You have declared a variable called var.list which is a list of objects that all have an attribute id . Which options will produce a list of the IDs? (Choose two.)\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "[ for o in var.list : o.id ]"
+            },
+            {
+                "letter": "B",
+                "text": "var.list[*].id"
+            },
+            {
+                "letter": "C",
+                "text": "[ var.list[*].id ]"
+            },
+            {
+                "letter": "D",
+                "text": "{ for o in var.list : o => o.id }"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 3,
+                "is_most_voted": false
+            },
+            {
+                "voted_answers": "A",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "enasuz",
+                "badge": "Selected Answer:A",
+                "date": "Wed 03 Dec 2025 09:39",
+                "content": "AB is correct",
+                "votes": 1
+            },
+            {
+                "username": "brugmany",
+                "badge": "Selected Answer:B",
+                "date": "Mon 29 Sep 2025 17:01",
+                "content": "Its asking for two answers not one:\n\nA: [ for o in var.list : o.id ] \nB: var.list[*].id",
+                "votes": 3
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/316824-exam-terraform-associate-003-topic-1-question-105-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 105 discussion",
+        "topic_number": 1,
+        "question_number": 105,
+        "question_html": "<p class=\"card-text\">\n You use a Cloud provider account that is shared with other team members. You previously used Terraform to create a load balancer that listens on port 80. After some application changes, you updated the Terraform code to change the port to 443.\n <br/>\n <br/>\n You run terraform plan and see that the execution plan shows the port changing from 80 to 443 like you intended, and step away to grab some coffee.\n <br/>\n <br/>\n In the meantime, another team member manually changes the load balancer port to 443 through the Cloud provider console before you get back to your desk.\n <br/>\n <br/>\n What will happen when you run terraform apply upon returning to your desk?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Terraform will not make any changes to the load balancer and will update the state file to reflect the manual change."
+            },
+            {
+                "letter": "B",
+                "text": "Terraform will fail with an error because the state file is no longer accurate."
+            },
+            {
+                "letter": "C",
+                "text": "Terraform will change the load balancer port to 80, and then change it back to 443."
+            },
+            {
+                "letter": "D",
+                "text": "Terraform will recreate the load balancer."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "C",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "enasuz",
+                "badge": "Selected Answer:C",
+                "date": "Tue 25 Nov 2025 12:30",
+                "content": "Terraform will change the load balancer port to 80, and then change it back to 443.",
+                "votes": 1
+            },
+            {
+                "username": "ShakthiGCP",
+                "badge": null,
+                "date": "Wed 26 Nov 2025 14:27",
+                "content": "Wrong Answer. Ans is A.  Try to google before posting answers please.",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312952-exam-terraform-associate-003-topic-1-question-77-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 77 discussion",
+        "topic_number": 1,
+        "question_number": 77,
+        "question_html": "<p class=\"card-text\">\n You must initialize your working directory before running terraform validate.\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "True"
+            },
+            {
+                "letter": "B",
+                "text": "False"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 6,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "B",
+                "vote_count": 2,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "real111",
+                "badge": "Selected Answer:A",
+                "date": "Mon 29 Dec 2025 11:38",
+                "content": "Validation requires an initialized working directory with any referenced plugins and modules installed. https://developer.hashicorp.com/terraform/cli/commands/validate",
+                "votes": 1
+            },
+            {
+                "username": "ShakthiGCP",
+                "badge": "Selected Answer:A",
+                "date": "Wed 26 Nov 2025 12:20",
+                "content": "No, you cannot run terraform validate successfully before running terraform init for the first time.\nYou must always run terraform init first.",
+                "votes": 1
+            },
+            {
+                "username": "March2023",
+                "badge": "Selected Answer:A",
+                "date": "Tue 04 Nov 2025 22:01",
+                "content": "It A, test it yourself youll get an error stating TF needs to be initialized before anything else.",
+                "votes": 2
+            },
+            {
+                "username": "brugmany",
+                "badge": "Selected Answer:A",
+                "date": "Mon 06 Oct 2025 15:24",
+                "content": "Why, before you can run terraform validate, you need to initialize the working directory with terraform init. This sets up the backend, downloads required providers, and ensures your configuration is ready for validation.\n\nIf you skip init, validate will fail because it won’t know where to find the providers or modules referenced in your config.",
+                "votes": 2
+            },
+            {
+                "username": "f0f1e05",
+                "badge": "Selected Answer:B",
+                "date": "Wed 24 Sep 2025 12:05",
+                "content": "B - False",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/313259-exam-terraform-associate-003-topic-1-question-22-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 22 discussion",
+        "topic_number": 1,
+        "question_number": 22,
+        "question_html": "<p class=\"card-text\">\n Which of the following locations can Terraform use as a private source for modules? (Choose two.)\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Public repository on GitHub."
+            },
+            {
+                "letter": "B",
+                "text": "Internally hosted VCS (Version Control System) platform."
+            },
+            {
+                "letter": "C",
+                "text": "Public Terraform Registry."
+            },
+            {
+                "letter": "D",
+                "text": "Private repository on GitHub."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n D\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "D",
+                "vote_count": 5,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "real111",
+                "badge": "Selected Answer:D",
+                "date": "Mon 29 Dec 2025 10:06",
+                "content": "Correct answer B, D",
+                "votes": 1
+            },
+            {
+                "username": "Barty94",
+                "badge": "Selected Answer:D",
+                "date": "Sun 02 Nov 2025 16:49",
+                "content": "Correct answer B, D",
+                "votes": 4
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/315716-exam-terraform-associate-003-topic-1-question-49-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 49 discussion",
+        "topic_number": 1,
+        "question_number": 49,
+        "question_html": "<p class=\"card-text\">\n It is ____________ to change the Terraform backend from the default “local” backend to a different one after performing your first terraform apply.\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "impossible"
+            },
+            {
+                "letter": "B",
+                "text": "discouraged"
+            },
+            {
+                "letter": "C",
+                "text": "optional"
+            },
+            {
+                "letter": "D",
+                "text": "mandatory"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "C",
+                "vote_count": 2,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "JavierCaro",
+                "badge": "Selected Answer:C",
+                "date": "Wed 05 Nov 2025 16:58",
+                "content": "It is possible to change the Terraform backend from the default \"local\" backend to a different one after performing your first terraform apply. \nThis process is known as migrating the Terraform state.",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/313057-exam-terraform-associate-003-topic-1-question-100-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 100 discussion",
+        "topic_number": 1,
+        "question_number": 100,
+        "question_html": "<p class=\"card-text\">\n One cloud block always maps to a single HCP Terraform/Terraform Cloud workspace.\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "True"
+            },
+            {
+                "letter": "B",
+                "text": "False"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 5,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "March2023",
+                "badge": "Selected Answer:B",
+                "date": "Mon 03 Nov 2025 02:47",
+                "content": "Official Docs :\n\"The cloud block is a single configuration that connects to one organization. Within that organization, you can define multiple workspaces using the workspaces argument.\"",
+                "votes": 1
+            },
+            {
+                "username": "brugmany",
+                "badge": "Selected Answer:B",
+                "date": "Tue 07 Oct 2025 07:05",
+                "content": "I’m trying to connect the dots, but I think this (can be wrong) a single cloud block can be reused across multiple configurations, and a workspace can be configured without a cloud block if you're using CLI-driven workflows or remote backends manually",
+                "votes": 2
+            },
+            {
+                "username": "f0f1e05",
+                "badge": "Selected Answer:B",
+                "date": "Thu 25 Sep 2025 15:51",
+                "content": "B - false",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/315107-exam-terraform-associate-003-topic-1-question-4-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 4 discussion",
+        "topic_number": 1,
+        "question_number": 4,
+        "question_html": "<p class=\"card-text\">\n You add a new resource to an existing Terraform configuration, but do not update the version constraint in the configuration. The existing and new resources use the same provider. The working directory contains a .terraform.lock.hcl file.\n <br/>\n How will Terraform choose which version of the provider to use?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Terraform will use the latest version of the provider for the new resource and the version recorded in the lock file to manage existing resources."
+            },
+            {
+                "letter": "B",
+                "text": "Terraform will use the version recorded in your lock file."
+            },
+            {
+                "letter": "C",
+                "text": "Terraform will check your state file to determine the provider version to use."
+            },
+            {
+                "letter": "D",
+                "text": "Terraform will use the latest version of the provider available at the time you provision your new resource."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 2,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "hbouachir",
+                "badge": "Selected Answer:B",
+                "date": "Fri 24 Oct 2025 09:25",
+                "content": "B. Terraform will use the version recorded in your lock file. ✅\n\nHere’s why:\n\nThe .terraform.lock.hcl file locks provider versions for your working directory. This ensures consistent behavior across runs, so Terraform uses the same provider version for all resources, even when you add new resources.\n\nThe version constraint in your configuration (required_providers) defines which versions are allowed, but Terraform will prioritize the version in the lock file if it satisfies the constraint.\n\nTerraform does not check the state file to pick a provider version—the state only tracks infrastructure resources.\n\nIt does not automatically use the latest provider version unless you explicitly run terraform init -upgrade and the new version satisfies the constraints.",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/315717-exam-terraform-associate-003-topic-1-question-78-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 78 discussion",
+        "topic_number": 1,
+        "question_number": 78,
+        "question_html": "<p class=\"card-text\">\n When does Terraform create the .terraform.lock.hcl file?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "After your first terraform plan."
+            },
+            {
+                "letter": "B",
+                "text": "After your first terraform apply."
+            },
+            {
+                "letter": "C",
+                "text": "After your first terraform init."
+            },
+            {
+                "letter": "D",
+                "text": "Whenever you enable state locking."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n C\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "C",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "ShakthiGCP",
+                "badge": "Selected Answer:C",
+                "date": "Wed 05 Nov 2025 16:59",
+                "content": "Terraform automatically creates or updates the dependency lock file each time you run the terraform init command.",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312493-exam-terraform-associate-003-topic-1-question-54-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 54 discussion",
+        "topic_number": 1,
+        "question_number": 54,
+        "question_html": "<p class=\"card-text\">\n Which of the following is true about terraform apply? (Choose two.)\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "You cannot target specific resources for the operation."
+            },
+            {
+                "letter": "B",
+                "text": "Depending on provider specification, Terraform may need to destroy and recreate your infrastructure resources."
+            },
+            {
+                "letter": "C",
+                "text": "It only operates on infrastructure defined in the current working directory or workspace."
+            },
+            {
+                "letter": "D",
+                "text": "By default, it does not refresh your state file to reflect the current infrastructure configuration."
+            },
+            {
+                "letter": "E",
+                "text": "You must pass the output of a terraform plan command to it."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n BC\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "BC",
+                "vote_count": 8,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "CD",
+                "vote_count": 2,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "brugmany",
+                "badge": "Highly Voted",
+                "date": "Wed 01 Oct 2025 18:04",
+                "content": "Correct Answers: B and C\n\nA. False, you can target specific resources with -target.\nB. True, changing immutable fields in AWS, Azure, etc., can cause destroy + recreate.\nC. True, Terraform applies only what’s in your current working directory/workspace.\nD. False, terraform apply does refresh state by default (unless you pass -refresh=false).\nE. False, you can run terraform apply directly without a prior plan file. Passing a saved plan (terraform apply plan.out) is optional.",
+                "votes": 6
+            },
+            {
+                "username": "f0f1e05",
+                "badge": "Most Recent",
+                "date": "Mon 22 Sep 2025 15:59",
+                "content": "B and C are correct.",
+                "votes": 2
+            },
+            {
+                "username": "RushinthJohn",
+                "badge": "Selected Answer:CD",
+                "date": "Thu 11 Sep 2025 16:07",
+                "content": "Option B is false",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/307505-exam-terraform-associate-003-topic-1-question-3-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 3 discussion",
+        "topic_number": 1,
+        "question_number": 3,
+        "question_html": "<p class=\"card-text\">\n You can reference a resource created with for_each using a splat ( * ) expression.\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "True"
+            },
+            {
+                "letter": "B",
+                "text": "False"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 8,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "A",
+                "vote_count": 3,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "brugmany",
+                "badge": "Selected Answer:B",
+                "date": "Tue 07 Oct 2025 06:09",
+                "content": "It was a brain-buster, but I finally figured it out: you can’t use the splat operator to access the entire resource object.",
+                "votes": 1
+            },
+            {
+                "username": "Slimane_lam",
+                "badge": "Selected Answer:A",
+                "date": "Thu 25 Sep 2025 14:18",
+                "content": "resource \"aws_instance\" \"example\" {\n  for_each = {\n    \"vm1\" = \"t2.micro\"\n    \"vm2\" = \"t2.small\"\n  }\n\n  ami           = \"ami-123456\"\n  instance_type = each.value\n}\n\noutput \"instance_ids\" {\n  value = aws_instance.example[*].id\n}\n\nfor_each creates two instances: vm1 and vm2.\nThe expression aws_instance.example[*].id is a splat expression that collects the id of each instance into a list.\nThe result is a list of instance IDs.",
+                "votes": 1
+            },
+            {
+                "username": "Babustest",
+                "badge": "Selected Answer:B",
+                "date": "Thu 11 Sep 2025 06:22",
+                "content": "Splat doesn't work for 'for_each*",
+                "votes": 2
+            },
+            {
+                "username": "Ranjanaj",
+                "badge": "Selected Answer:A",
+                "date": "Thu 11 Sep 2025 01:58",
+                "content": "example:\n\nresource \"aws_instance\" \"example\" {\n  count = 3\n  ami           = \"ami-123456\"\n  instance_type = \"t2.micro\"\n}\n\noutput \"instance_ids\" {\n  value = aws_instance.example[*].id\n}\nthe output will look something like:\n\n[\n  \"i-abc123\",\n  \"i-def456\",\n  \"i-ghi789\"\n]",
+                "votes": 1
+            },
+            {
+                "username": "Cccb35",
+                "badge": "Selected Answer:B",
+                "date": "Tue 09 Sep 2025 21:33",
+                "content": "Count has as result a list and for_each has as result a map. When is a list, you can use (*), however when is a map is not posible use  (*)",
+                "votes": 3
+            },
+            {
+                "username": "sadasdsadawer123235453",
+                "badge": "Selected Answer:A",
+                "date": "Wed 20 Aug 2025 11:03",
+                "content": "When you use for_each to create multiple instances of a resource in Terraform, you can reference all of them using a splat expression (*). This returns a list of values from the resource instances.\nresource \"aws_instance\" \"web\" {\n  for_each = {\n    \"one\"   = \"t2.micro\"\n    \"two\"   = \"t2.small\"\n  }\n\n  instance_type = each.value\n  ami           = \"ami-123456\"\n}\n\noutput \"instance_ids\" {\n  value = aws_instance.web[*].id\n}",
+                "votes": 1
+            },
+            {
+                "username": "sabrthor",
+                "badge": "Selected Answer:B",
+                "date": "Mon 11 Aug 2025 13:10",
+                "content": "Resources that use the for_each argument will appear in expressions as a map of objects, so you can't use splat expressions with those resources.\nTo get a similar result with a map or object value you must use for expressions.",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/315490-exam-terraform-associate-003-topic-1-question-96-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 96 discussion",
+        "topic_number": 1,
+        "question_number": 96,
+        "question_html": "<p class=\"card-text\">\n What is a Terraform provider not responsible for?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Provisioning infrastructure in multiple cloud providers."
+            },
+            {
+                "letter": "B",
+                "text": "Managing actions to take based on resource differences."
+            },
+            {
+                "letter": "C",
+                "text": "Understanding API interactions with a hosted service."
+            },
+            {
+                "letter": "D",
+                "text": "Managing resources and data sources based on an API."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n A\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "A",
+                "vote_count": 3,
+                "is_most_voted": true
+            },
+            {
+                "voted_answers": "B",
+                "vote_count": 3,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "ShakthiGCP",
+                "badge": "Selected Answer:B",
+                "date": "Wed 05 Nov 2025 19:24",
+                "content": "Managing actions to take based on resource differences (The Core Terraform Engine's job): The main Terraform CLI and core engine are responsible for:\nState Management: Reading the current state file.\nPlanning: Comparing the desired state (configuration files) with the current state (state file and real infrastructure).\nDecision Making: Determining the sequence of actions needed (create, update, delete, replace) to reach the desired state.",
+                "votes": 3
+            },
+            {
+                "username": "March2023",
+                "badge": "Selected Answer:A",
+                "date": "Mon 03 Nov 2025 02:59",
+                "content": "A single Terraform provider is dedicated to one platform.\nIt is not responsible for provisioning across multiple cloud providers",
+                "votes": 3
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/316349-exam-terraform-associate-003-topic-1-question-26-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 26 discussion",
+        "topic_number": 1,
+        "question_number": 26,
+        "question_html": "<p class=\"card-text\">\n A resource block is shown in the Exhibit space of this page. How would you reference the name value of the second instance of this resource?\n <br/>\n <img src=\"terraform-associate-003/image2_06ce30904d9448a99500ebe4f0339f24_unique_local_name.png\" title=\"image2\"/>\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "aws_instance.web[1]"
+            },
+            {
+                "letter": "B",
+                "text": "element(aws_instance.web, 2)"
+            },
+            {
+                "letter": "C",
+                "text": "aws_instance.web[2].name"
+            },
+            {
+                "letter": "D",
+                "text": "aws_instance.web[1].name"
+            },
+            {
+                "letter": "E",
+                "text": "aws_instance.web.*.name"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n D\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "D",
+                "vote_count": 2,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "ven",
+                "badge": "Selected Answer:D",
+                "date": "Wed 03 Dec 2025 15:03",
+                "content": "when we use count in terrafrom, each instance indexed starting with 0 so answer is D.",
+                "votes": 2
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312492-exam-terraform-associate-003-topic-1-question-24-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 24 discussion",
+        "topic_number": 1,
+        "question_number": 24,
+        "question_html": "<p class=\"card-text\">\n You have provisioned some virtual machines (VMs) on Google Cloud Platform (GCP) using the gcloud command line tool. However, you are standardizing with Terraform and want to manage these VMs using Terraform instead.\n <br/>\n What are the two things you must do to achieve this? (Choose two.)\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Provision new VMs using Terraform with the same VM names."
+            },
+            {
+                "letter": "B",
+                "text": "Use the terraform import command for the existing VMs."
+            },
+            {
+                "letter": "C",
+                "text": "Write Terraform configuration for the existing VMs."
+            },
+            {
+                "letter": "D",
+                "text": "Run the terraform import-gcp command."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n C\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "C",
+                "vote_count": 7,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "brugmany",
+                "badge": "Selected Answer:C",
+                "date": "Mon 29 Sep 2025 16:08",
+                "content": "It really says What two steps are required.\n\nB (terraform import): Brings the existing GCP VM into Terraform state.\nC (write configuration): You must still provide a matching .tf configuration for Terraform to track and manage i",
+                "votes": 4
+            },
+            {
+                "username": "RushinthJohn",
+                "badge": "Selected Answer:C",
+                "date": "Thu 11 Sep 2025 15:41",
+                "content": "The question clearly states select 2 options, and they are in the following order:\nC. Use the terraform import command\nB. Write Terraform Configuration",
+                "votes": 3
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/312726-exam-terraform-associate-003-topic-1-question-14-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 14 discussion",
+        "topic_number": 1,
+        "question_number": 14,
+        "question_html": "<p class=\"card-text\">\n You used Terraform to create an ephemeral development environment in the cloud and are now ready to destroy all the infrastructure described by your Terraform configuration. To be safe, you would like to first see all the infrastructure that Terraform will delete.\n <br/>\n Which command should you use to show all the resources that will be deleted? (Choose two.)\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Run terraform state rm *."
+            },
+            {
+                "letter": "B",
+                "text": "Run terraform destroy.This will output all the resources that will be deleted before prompting for approval."
+            },
+            {
+                "letter": "C",
+                "text": "Run terraform plan -destroy."
+            },
+            {
+                "letter": "D",
+                "text": "Run terraform show -destroy."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n BC\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "BC",
+                "vote_count": 1,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "f0f1e05",
+                "badge": "Selected Answer:BC",
+                "date": "Thu 18 Sep 2025 13:14",
+                "content": "Yes, B C are good answers",
+                "votes": 1
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/315106-exam-terraform-associate-003-topic-1-question-2-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 2 discussion",
+        "topic_number": 1,
+        "question_number": 2,
+        "question_html": "<p class=\"card-text\">\n Your security team scanned some Terraform workspaces and found secrets stored in plaintext in state files. How can you protect that data?\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Delete the state file every time you run Terraform."
+            },
+            {
+                "letter": "B",
+                "text": "Store the state in an encrypted backend."
+            },
+            {
+                "letter": "C",
+                "text": "Always store your secrets in a secrets.tfvars file."
+            },
+            {
+                "letter": "D",
+                "text": "Edit your state file to scrub out the sensitive data."
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n B\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "B",
+                "vote_count": 3,
+                "is_most_voted": true
+            }
+        ],
+        "comments": [
+            {
+                "username": "hbouachir",
+                "badge": "Selected Answer:B",
+                "date": "Fri 24 Oct 2025 09:21",
+                "content": "B: Store the state in an encrypted backend because Terraform’s state file contains all the information about your infrastructure, including sensitive values like passwords, API keys, and database credentials. By default, if the state file is stored locally, it’s just a plaintext file—anyone with access can read those secrets.",
+                "votes": 3
+            }
+        ]
+    },
+    {
+        "link": "https://www.examtopics.com/discussions/hashicorp/view/315478-exam-terraform-associate-003-topic-1-question-62-discussion/",
+        "title": "Exam Terraform Associate 003 topic 1 question 62 discussion",
+        "topic_number": 1,
+        "question_number": 62,
+        "question_html": "<p class=\"card-text\">\n Which parameters does terraform import require? (Choose two.)\n</p>\n",
+        "choices": [
+            {
+                "letter": "A",
+                "text": "Provider"
+            },
+            {
+                "letter": "B",
+                "text": "Path"
+            },
+            {
+                "letter": "C",
+                "text": "Resource ID"
+            },
+            {
+                "letter": "D",
+                "text": "Resource address"
+            }
+        ],
+        "answer": "<span class=\"correct-answer\">\n CD\n</span>\n",
+        "voted_answers": [
+            {
+                "voted_answers": "CD",
+                "vote_count": 1,
+                "is_most_voted": false
+            }
+        ],
+        "comments": [
+            {
+                "username": "March2023",
+                "badge": "Selected Answer:CD",
+                "date": "Sun 02 Nov 2025 16:34",
+                "content": "C and D are correct. terraform import <resource_address> <resource_id>",
+                "votes": 1
+            }
+        ]
+    }
+]
