@@ -270,8 +270,6 @@ function onDataLoaded() {
 			const idx = Number(questionSelect.value)
 			const q = QUESTIONS.find(x => x.idx == idx)
 			if (q) {
-				// When user explicitly asks to show the answer, save currently
-				// selected choices (if any) and mark as shown.
 				const inputs = Array.from(document.querySelectorAll('#choices-container input[name="answer"]'))
 				const selected = inputs.filter(i => i.checked).map(i => i.value)
 				saveAnswer(idx, selected.length ? selected : null, true)
