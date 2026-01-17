@@ -237,6 +237,7 @@ def test_result(provider, exam_code):
 
     total_points = 0.0
     full_correct = 0
+    incorrect_questions = []
     for q_num, idx in enumerate(chosen_indices):
         q = valid_questions[idx]
         correct_text = BeautifulSoup(q.get("answer", ""), "html.parser").get_text(strip=True)
@@ -262,6 +263,33 @@ def test_result(provider, exam_code):
             if inter:
                 total_points += len(inter) / len(correct_set)
 
+            choices = q.get("choices", [])
+            q_html = q.get("question_html")
+            q_html = _make_asset_paths_absolute(q_html)
+            answer_html = q.get("answer")
+            answer_html = _make_asset_paths_absolute(answer_html)
+
+            annotated_choices = []
+            for c in choices:
+                letter = c.get("letter")
+                text = c.get("text")
+                annotated_choices.append({
+                    "letter": letter,
+                    "text": text,
+                    "is_correct": (letter in correct_set),
+                    "is_selected": (letter in user_set),
+                })
+
+            incorrect_questions.append({
+                "q_num": q_num,
+                "question_html": q_html,
+                "answer_html": answer_html,
+                "choices": annotated_choices,
+                "correct_letters": sorted(list(correct_set)),
+                "user_letters": sorted(list(user_set)),
+                "link": q.get("link", ""),
+            })
+
     session.pop("user_answers", None)
     session.pop("test_question_order", None)
     session.pop("test_num_questions", None)
@@ -275,6 +303,7 @@ def test_result(provider, exam_code):
         points=total_points,
         max_points=len(chosen_indices),
         full_correct=full_correct
+        ,incorrect_questions=incorrect_questions
     )
 
 

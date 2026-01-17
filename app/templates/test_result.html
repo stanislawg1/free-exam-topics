@@ -23,6 +23,50 @@
         <a class="btn primary" href="{{ url_for('main.test_start', provider=provider, exam_code=exam_code) }}">Restart Exam</a>
         <a class="btn secondary" href="{{ url_for('main.exam_detail', provider=provider, exam_code=exam_code) }}">Back to Exam panel</a>
     </div>
+    
+    {% if incorrect_questions %}
+    <div class="incorrect-list">
+        <h2>Questions answered incorrectly ({{ incorrect_questions|length }})</h2>
+        {% for q in incorrect_questions %}
+        <div class="incorrect-item">
+            <h3>Question {{ q.q_num + 1 }}</h3>
+            <div class="question-content">
+                {{ q.question_html | safe }}
+            </div>
+
+            <ul class="choices-list">
+                {% for c in q.choices %}
+                <li>
+                    <strong>{{ c.letter }}.</strong>
+                    {{ c.text }}
+                    {% if c.is_correct %}
+                        <span style="color:green; font-weight:600; margin-left:8px;">✔ correct</span>
+                    {% endif %}
+                    {% if c.is_selected %}
+                        <span style="color:red; font-weight:600; margin-left:8px;">✖ your answer</span>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <p>
+                <strong>Your selection:</strong>
+                {% if q.user_letters %}
+                    {{ q.user_letters | join(', ') }}
+                {% else %}
+                    (no answer)
+                {% endif %}
+            </p>
+
+            <p>
+                <strong>Correct answer:</strong>
+                {{ q.correct_letters | join(', ') }}
+            </p>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     </div>
 </div>
 </body>

@@ -40,7 +40,7 @@ evt.onmessage = (e) => {
                 <div class="mode-selector">
                     <h2>Choose mode:</h2>
                     <div class="mode-grid">
-                        <a class="mode-tile" href="/${providerKey}/${examCode}/test">📝<span>Test mode</span></a>
+                        <a class="mode-tile" href="/${providerKey}/${examCode}/test">📝<span>Exam mode</span></a>
                         <a class="mode-tile" href="/${providerKey}/${examCode}/learn">📘<span>Learn mode</span></a>
                         <a class="mode-tile" href="/${providerKey}/${examCode}/anki">🧠<span>Download Anki</span></a>
                     </div>
