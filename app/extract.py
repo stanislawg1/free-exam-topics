@@ -137,7 +137,7 @@ def _save_images(base_url, body, media_folder="assets/media"):
             img_data = r.content
         except Exception as e:
             try: # try again on img.examtopics.com
-                img_url = f"https://img.examtopics.com/{src.lstrip("/")}"
+                img_url = f"https://img.examtopics.com/{src.lstrip('/')}"
                 r = requests.get(img_url, headers=headers)
                 r.raise_for_status()
                 img_data = r.content
