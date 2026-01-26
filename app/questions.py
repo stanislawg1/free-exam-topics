@@ -84,17 +84,17 @@ def get_questions(exam_provider, exam_code, url, headers, caching=True):
 
 def cached_questions_stage(exam_provider, exam_code):
     yield {"type": "stage", "stage": "⌛ Looking for cached questions...", "message": ""}
-    time.sleep(1)
+    time.sleep(0.5)
     
     caching_level = check_caching(exam_provider, exam_code)
     
     if caching_level >= 0:
         yield {"type": "stage", "stage": "⚡ Loaded from cache", "message": ""}
-        time.sleep(1)
+        time.sleep(0.5)
         return {"cached": True, "level": caching_level}
 
     yield {"type": "stage", "stage": "🚫 Nothing found in cache", "message": "Scrapping will start soon."}
-    time.sleep(1)
+    time.sleep(0.5)
     return {"cached": False, "level": caching_level}
 
 def discussion_pages_stage(url, headers, exam_provider):

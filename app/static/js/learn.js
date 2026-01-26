@@ -1,5 +1,8 @@
 let QUESTIONS = []
 let TOPICS = []
+let ORIGINAL_QUESTIONS = []
+let RANDOM_TOGGLE = null
+let NAV_ORDER = null
 
 function escapeHtml(unsafe) {
 	if (unsafe === null || unsafe === undefined) return ''
@@ -19,6 +22,78 @@ const commentsArea = document.getElementById('comments-area')
 const prevBtn = document.getElementById('prev-q')
 const showBtn = document.getElementById('show-btn')
 const nextBtn = document.getElementById('next-q')
+RANDOM_TOGGLE = document.getElementById('random-toggle')
+
+function shuffleArray(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1))
+		const tmp = array[i]
+		array[i] = array[j]
+		array[j] = tmp
+	}
+}
+
+function applyRandomization(preserveSelectedIdx, preserveShown = false, preserveSelectedAnswers = null) {
+	if (!ORIGINAL_QUESTIONS.length) return
+	if (RANDOM_TOGGLE && RANDOM_TOGGLE.checked) {
+		QUESTIONS = ORIGINAL_QUESTIONS.slice()
+		shuffleArray(QUESTIONS)
+		NAV_ORDER = QUESTIONS.map(q => q.idx)
+	} else {
+		QUESTIONS = ORIGINAL_QUESTIONS.slice()
+		NAV_ORDER = null
+	}
+
+	const curTopic = topicSelect ? Number(topicSelect.value) : (TOPICS.length ? TOPICS[0] : null)
+	populateTopics()
+	if (curTopic !== null && TOPICS.includes(curTopic)) {
+		topicSelect.value = curTopic
+	}
+	if (TOPICS.length) populateQuestions(topicSelect ? topicSelect.value : TOPICS[0])
+
+	if (preserveSelectedIdx != null && questionSelect) {
+		const opts = Array.from(questionSelect.options)
+		const found = opts.findIndex(o => Number(o.value) === Number(preserveSelectedIdx))
+		if (found >= 0) {
+			questionSelect.selectedIndex = found
+			renderQuestionByIdx(Number(questionSelect.value))
+			if (preserveSelectedAnswers && preserveSelectedAnswers.length) {
+				const inputs = Array.from(document.querySelectorAll('#choices-container input[name="answer"]'))
+				inputs.forEach(i => {
+					i.checked = preserveSelectedAnswers.includes(i.value)
+				})
+				highlightChoices(Number(questionSelect.value))
+			}
+			if (preserveShown) {
+				const qid = Number(questionSelect.value)
+				const q = QUESTIONS.find(x => x.idx == qid) || ORIGINAL_QUESTIONS.find(x => x.idx == qid)
+				if (q) revealAnswer(q)
+			}
+			return
+		}
+	}
+	if (questionSelect && questionSelect.options.length) {
+		questionSelect.selectedIndex = 0
+		renderQuestionByIdx(Number(questionSelect.value))
+		if (preserveSelectedAnswers && preserveSelectedAnswers.length) {
+			const cur = Number(questionSelect.value)
+			if (preserveSelectedIdx == null || cur === Number(preserveSelectedIdx)) {
+				const inputs = Array.from(document.querySelectorAll('#choices-container input[name="answer"]'))
+				inputs.forEach(i => {
+					i.checked = preserveSelectedAnswers.includes(i.value)
+				})
+				highlightChoices(Number(questionSelect.value))
+			}
+		}
+		if (preserveShown && preserveSelectedIdx != null) {
+			const cur = Number(questionSelect.value)
+			if (cur === Number(preserveSelectedIdx)) {
+				const q = QUESTIONS.find(x => x.idx == cur) || ORIGINAL_QUESTIONS.find(x => x.idx == cur)
+				if (q) revealAnswer(q)
+			}
+		}
+	}
+}
 
 function populateTopics() {
 	if (!topicSelect) return
@@ -39,7 +114,8 @@ function populateQuestions(topic) {
 	if (!questionSelect) return
 	const list = questionsForTopic(Number(topic))
 	questionSelect.innerHTML = ''
-	list.forEach(q => {
+	const sorted = list.slice().sort((a, b) => (a.question_number || 0) - (b.question_number || 0))
+	sorted.forEach(q => {
 		const opt = document.createElement('option')
 		opt.value = q.idx
 		opt.textContent = q.question_number
@@ -230,6 +306,31 @@ function goToAdjacent(delta) {
 	if (!questionSelect || !topicSelect) return
 	const opts = Array.from(questionSelect.options)
 	if (!opts.length) return
+	if (RANDOM_TOGGLE && RANDOM_TOGGLE.checked && Array.isArray(NAV_ORDER) && NAV_ORDER.length) {
+		const curIdx = Number(questionSelect.value)
+		const curPos = NAV_ORDER.findIndex(x => Number(x) === Number(curIdx))
+		const newPos = (curPos + delta + NAV_ORDER.length) % NAV_ORDER.length
+		const newQIdx = NAV_ORDER[newPos]
+
+		const q = QUESTIONS.find(x => x.idx == newQIdx) || ORIGINAL_QUESTIONS.find(x => x.idx == newQIdx)
+		if (q) {
+			const topicVal = q.topic_number
+			const topicOpts = Array.from(topicSelect.options).map(o => Number(o.value))
+			const topicIndex = topicOpts.indexOf(topicVal)
+			if (topicIndex >= 0) {
+				topicSelect.selectedIndex = topicIndex
+			}
+			populateQuestions(Number(topicSelect.value))
+			const optsAfter = Array.from(questionSelect.options)
+			const found = optsAfter.findIndex(o => Number(o.value) === Number(newQIdx))
+			if (found >= 0) {
+				questionSelect.selectedIndex = found
+				renderQuestionByIdx(Number(questionSelect.value))
+			}
+		}
+		return
+	}
+
 	let curQIdx = questionSelect.selectedIndex
 	let newQIdx = curQIdx + delta
 	if (newQIdx >= 0 && newQIdx < opts.length) {
@@ -286,8 +387,28 @@ fetch(dataUrl)
 	.then(r => r.json())
 	.then(data => {
 		if (!data.ok) throw new Error(data.error || 'no data')
-		QUESTIONS = data.questions || []
+		ORIGINAL_QUESTIONS = data.questions || []
+		QUESTIONS = ORIGINAL_QUESTIONS.slice()
 		TOPICS = data.topics || []
+
+		RANDOM_TOGGLE = document.getElementById('random-toggle')
+		if (RANDOM_TOGGLE) {
+			RANDOM_TOGGLE.addEventListener('change', () => {
+				const curSel = questionSelect ? questionSelect.value : null
+				const wasShown = answerArea && answerArea.style.display && answerArea.style.display !== 'none'
+				let preservedAnswers = null
+				if (document.querySelectorAll) {
+					const inputs = Array.from(document.querySelectorAll('#choices-container input[name="answer"]:checked'))
+					if (inputs && inputs.length) preservedAnswers = inputs.map(i => i.value)
+				}
+				applyRandomization(curSel ? Number(curSel) : null, !!wasShown, preservedAnswers)
+			})
+		}
+
+		if (RANDOM_TOGGLE && RANDOM_TOGGLE.checked) {
+			applyRandomization(null)
+		}
+
 		onDataLoaded()
 	})
 	.catch(e => {
